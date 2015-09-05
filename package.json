@@ -1,0 +1,19 @@
+{
+  "name": "write-start",
+  "version": "1.0.0",
+  "description": "(Project One WDI) A web app designed to give authors feedback on the most important part of the story...the beginning.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nathan-O/Write-Start.git"
+  },
+  "author": "Nathan Ockerman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nathan-O/Write-Start/issues"
+  },
+  "homepage": "https://github.com/Nathan-O/Write-Start#readme"
+}
