@@ -12,35 +12,61 @@
 
 	<head>
 
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
 		<title>WriteStart</title>
 
 		
 			<!-- jQuery -->
-		<script src="/vender/jquery/dist/jquery.min.js"></script>
+		<script type="text/javascript" src="/vender/jquery/dist/jquery.min.js"></script>
 			<!-- Underscore -->
-		<script src="/vender/underscore/underscore-min.js"></script>
+		<script type="text/javascript" src="/vender/underscore/underscore-min.js"></script>
 			<!-- Bootstrap JS -->
-		<script src="/vender/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="/vender/bootstrap/dist/js/bootstrap.min.js"></script>
 			<!-- Bootstrap CSS -->
 		<link rel="stylesheet" href="/vender/bootstrap/dist/css/bootstrap.min.css">
 
 			<!-- Local -->
-		<script src="/statis/JS/app.js"></script>	
+		<script type="text/javascript" src="/static/JS/app.js"></script>	
 		<link rel="stylesheet" href="/static/CSS/main.css">	
 
 	</head>
 
 	<body>
-		<header>
-			<div class="page-header">
-				<h1>Hello <small>World</small></h1>
-		</header>
+		<div class="container" id="page-wrapper">
+			<header>
+				<div class="page-header">
+					<h1>Hello <small>World</small></h1>
+				</div>
+			</header>
 
-		<!-- Content -->
+			<!-- <button class="btn-lg btn-warning" method="POST" action="/login">LogIn</button> -->
 
-		<footer>
-		</footer>
+			<button type="submit" class="btn-lg btn-danger" id="testTest">Don't Click Me</button>
+
+			<!-- Redirects to Login w/out HTTP request -->
+			<a href="/login"><button class="btn-lg btn-warning" id="testTest">LogIn</button></a>
+
+			<div id="insult-placeholder"></div>
+
+			<!-- Content -->
+
+			<footer>
+			</footer>
+		</div>
+		
 	</body>
+
+	<!-- TEMPLATES -->
+
+	<script type="text/template" id="insult-template">
+		<div class="insult jumbotron">
+			<h1> What the Hell?!?! <small>Seriously <%= name %>? </small></h1>
+			<br/>
+			<p>Why do people <em>always</em> do the opposite of what they are <strong>Commanded!</strong></p>
+			<p>Shape up <%= name %></p>
+		</div>
+	</script>
 
 </html>
 
