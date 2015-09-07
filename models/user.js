@@ -39,13 +39,20 @@ UserSchema.statics.createSecure = function(userName, firstName, lastName, email,
 };
 
 // to authenticate user (login)
-UserSchema.statics.authenticate = function (email, callback){
+UserSchema.statics.authenticate = function (email, password, callback){
+  console.log("Email: " + email + ", Pass: " + password);
+
   this.findOne({email: email}, function (err, user){
     if (user === null) {
+      console.log("It was null");
+
       callback("Sorry, no user was found with that email", null);
     } else if (user.checkPassword(password)){
+      console.log("Worked");
+
       callback(null, user);
     } else {
+      console.log("Wrong pass");
       callback("Password Incorrect", user);
     };
   });

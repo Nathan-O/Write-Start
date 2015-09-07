@@ -40,6 +40,22 @@
 				</div>
 			</header>
 
+			<div id="formContainer">
+				<form method="POST" action="/login">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Email" name="user[email]">
+							<br/>
+						<input type="password" class="form-control" placeholder="Password" name="user[password]">
+							<br/>
+						<label>
+	      					<input type="checkbox" id="rememberUser"> Remember Me
+	   					</label>
+
+						<button class="btn btn-default" type="submit">LogIn</button>
+					</div>
+				</form>
+			</div>
+
 			<!-- <button type="submit" class="btn-lg btn-primary" method="POST" action="/signup">Sign Up</button> -->
 
 			<a href="/signup"><button class="btn btn-lg btn-success">Sign Up</button></a>

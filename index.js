@@ -43,7 +43,7 @@ app.use(
 app.use(function (req, res, next){
 	// for login
 	req.login = function (user){
-		req.session.userId = user.id;
+		req.session.userId = user._id;
 	};
 
 	//get current user for profile
@@ -78,9 +78,9 @@ app.get("/signup", function (req, res){
 });
 
 app.get("/profile", function (req, res){
-	//
 	console.log("Profile route");
 	req.currentUser(function (err, currentUser){
+		console.log(currentUser);
 		if (currentUser === null){
 			res.redirect("/signup");
 		} else {
@@ -89,29 +89,16 @@ app.get("/profile", function (req, res){
 	})
 });
 
-/*app.get("/profile", function userShow(req, res) {
-  req.currentUser(function (err, currentUser) {
-    if (currentUser === null) {
-      res.redirect("/signup")
-    } else {
-      res.render("profile", {user: currentUser});
-    }
-  })
-});*/
-
 app.get("/just...why", function (req, res){
 	res.sendFile(path.join(views + "nope.html"));
 });
 
 //************** delete for production
 app.get("/users", function (req, res){
-    db.User.find({},
-        function (err, users) {
-
-            res.send(users);
-        });
-
-})
+    db.User.find({}, function (err, users) {
+		res.send(users);
+	});
+});
 
 /////////////////////////////////////////
 //test routes
@@ -119,13 +106,16 @@ app.get("/users", function (req, res){
 	res.redirect("/login");
 });*/
 
-app.post("/login", function (req, res){
+app.post(["/login", "/api/session"], function (req, res){
 	var user = req.body.user;
   	var email = user.email;
   	var password = user.password;
 
   	db.User.authenticate(email, password, function (err, user) {
-    	res.send(email + " is logged in\n");
+  		req.login(user);
+  		res.cookie("guid", user._id);
+  		res.redirect("/profile"); 
+    	/*res.send(email + " is logged in\n");*/
   	});
 });
 
@@ -147,39 +137,10 @@ app.post(["/signup", "/api/users"], function signup(req, res) {
 		console.log("Created Secure")
 		if (err) {console.log(err);}
 		req.login(user);
+		res.cookie("guid", user._id);
 		console.log("logged In")
 		res.redirect("/profile"); 
-	});
-
-	  // *** test set up *** //
-	// * change to DB later * //
-	/*var newUser = {id: "",
-					username: "",
-					firstname: "",
-					lastname: "",
-					userEmail: "",
-					passwordStr: "",
-					dateCreated: ""
-				};
-
-	newUser.id = userId;
-	newUser.username = userName;
-	newUser.firstname = firstName;
-	newUser.lastname = lastName;
-	newUser.userEmail = email;
-	newUser.passwordStr = password;
-	newUser.dateCreated = date;
-
-	console.log(newUser);
-
-	dataTest.push(newUser);
-
-	req.login(newUser);
-	res.redirect("/profile");*/
-
-	//////////////
-
-	
+	});	
 });
 
 

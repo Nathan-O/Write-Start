@@ -34,16 +34,19 @@ console.log("It goes...");
 
 db.User.remove({}, function (err, users){
 
-	console.log("Stil goes...");
+	/*console.log("Stil goes...");
 
-  db.User.create(user_list, function (err, users){
+
+  db.User.createSecure(user_list, function (err, users){
     if (err) { 
     	console.log(err);
     	return console.log("So many fails!") 
     };
     console.log("created", users.length, "users")
     process.exit();
-  });
+  });*/
+console.log("Gone");
+process.exit();
 });
 
 
