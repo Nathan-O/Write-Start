@@ -1,0 +1,7 @@
+#formContainer {
+	background-color: lightblue;
+	border: 3px blue solid;
+	width: 500px;
+    padding: 20px;
+    padding-right: 75px;
+}

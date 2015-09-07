@@ -13,7 +13,8 @@ var cookieParser = require("cookie-parser");
 var session = require("express-session");
 var path = require("path");
 var _ = require("underscore");
-//var db = require("./models");
+var db = require("./models");
+//var dataTest = require("./models/initial.js");
 
 var app = express();
 
@@ -26,6 +27,9 @@ app.use(cookieParser());
 
 var views = path.join(process.cwd(), "views/");
 
+//test
+//var dataTest = path.join(process.cwd(), "models/initial.js");
+
 // Create Session //
 app.use(
 	session({
@@ -34,6 +38,31 @@ app.use(
 		saveUninitialized: true
 	})
 );
+
+//** needs changed when add DB **//
+app.use(function (req, res, next){
+	// for login
+	req.login = function (user){
+		req.session.userId = user.id;
+	};
+
+	//get current user for profile
+	req.currentUser = function (callback){
+		db.User.findOne({ _id: req.session.userId }, function (err, user) {
+        req.user = user;
+        callback(null, user);
+      });
+	};
+
+	//log out user
+	req.logout = function(){
+		req.session.UserId = null;
+		req.user = null;
+	};
+
+	next();
+});
+
 
 // ROUTES //
 app.get("/", function (req, res){
@@ -48,8 +77,40 @@ app.get("/signup", function (req, res){
 	res.sendFile(path.join(views + "signup.html"));
 });
 
+app.get("/profile", function (req, res){
+	//
+	console.log("Profile route");
+	req.currentUser(function (err, currentUser){
+		if (currentUser === null){
+			res.redirect("/signup");
+		} else {
+			res.sendFile(views + "profile.html");
+		}
+	})
+});
+
+/*app.get("/profile", function userShow(req, res) {
+  req.currentUser(function (err, currentUser) {
+    if (currentUser === null) {
+      res.redirect("/signup")
+    } else {
+      res.render("profile", {user: currentUser});
+    }
+  })
+});*/
+
 app.get("/just...why", function (req, res){
 	res.sendFile(path.join(views + "nope.html"));
+});
+
+//************** delete for production
+app.get("/users", function (req, res){
+    db.User.find({},
+        function (err, users) {
+
+            res.send(users);
+        });
+
 })
 
 /////////////////////////////////////////
@@ -59,14 +120,70 @@ app.get("/just...why", function (req, res){
 });*/
 
 app.post("/login", function (req, res){
-	console.log("Clicked on Login page.");
-	res.redirect("/signup");
+	var user = req.body.user;
+  	var email = user.email;
+  	var password = user.password;
+
+  	db.User.authenticate(email, password, function (err, user) {
+    	res.send(email + " is logged in\n");
+  	});
 });
 
-app.post("/signup", function (req, res){
-	console.log("Clicked on Sign Up page.");
-	res.redirect("/login");
+// where the user submits the sign-up form
+app.post(["/signup", "/api/users"], function signup(req, res) {
+	// grab the user from the params
+	var user = req.body.user;
+	console.log(user);
+	// pull out their info
+	var firstName = user.firstName;
+	var lastName = user.lastName;		//need to do something about "remember me" being checked
+	var userName = user.userName;
+	var email = user.email;
+	var password = user.password;
+	var date = Date.now();
+
+	// create the new user
+	db.User.createSecure(userName, firstName, lastName, email, password, function (err, user) {
+		console.log("Created Secure")
+		if (err) {console.log(err);}
+		req.login(user);
+		console.log("logged In")
+		res.redirect("/profile"); 
+	});
+
+	  // *** test set up *** //
+	// * change to DB later * //
+	/*var newUser = {id: "",
+					username: "",
+					firstname: "",
+					lastname: "",
+					userEmail: "",
+					passwordStr: "",
+					dateCreated: ""
+				};
+
+	newUser.id = userId;
+	newUser.username = userName;
+	newUser.firstname = firstName;
+	newUser.lastname = lastName;
+	newUser.userEmail = email;
+	newUser.passwordStr = password;
+	newUser.dateCreated = date;
+
+	console.log(newUser);
+
+	dataTest.push(newUser);
+
+	req.login(newUser);
+	res.redirect("/profile");*/
+
+	//////////////
+
+	
 });
+
+
+
 
 // SERVER // 
 app.listen(3000, function(){

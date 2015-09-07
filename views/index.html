@@ -42,16 +42,19 @@
 
 			<!-- <button class="btn-lg btn-warning" method="POST" action="/login">LogIn</button> -->
 
-			<button type="submit" class="btn-lg btn-danger" id="testTest">Don't Click Me</button>
+			
 
 			<!-- Redirects to Login w/out HTTP request -->
-			<a href="/login"><button class="btn-lg btn-warning" id="testTest">LogIn</button></a>
+			<a href="/login"><button class="btn btn-lg btn-warning">LogIn</button></a>
+			<p>* Side note: <strong>Don't</strong> click buttons with this ( <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> ) sybmol</p>
 
 			<div id="insult-placeholder"></div>
 
 			<!-- Content -->
 
 			<footer>
+				<p>Made by <a href="https://github.com/Nathan-O">Nathan-O</a></p>
+				<button type="submit" class="btn btn-xs btn-danger" id="testTest"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></button>
 			</footer>
 		</div>
 		
@@ -63,10 +66,10 @@
 		<div class="insult jumbotron">
 			<h1> What the Hell?!?! <small>Seriously <%= name %>? </small></h1>
 			<br/>
-			<p>Why do people <em>always</em> do the opposite of what they are <strong>Commanded!</strong></p>
+			<p>Why do people <em>always</em> do the <strong>opposite</strong> of what they are told?! When someone says don't click a button...<strong><em>don't</em></strong> click that button!</p>
 			<p>Shape up <%= name %></p>
-			<a href="/just...why"><button class="btn-xs btn-danger" id="testTest">Seriously Do Not Click</button></a>
-		</div>
+			<a href="/just...why"><button class="btn-xs btn-danger"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></button></a>
+		</div>									
 	</script>
 
 </html>

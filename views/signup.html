@@ -29,6 +29,7 @@
 			<!-- Local -->
 		<script type="text/javascript" src="/static/JS/app.js"></script>	
 		<link rel="stylesheet" href="/static/CSS/main.css">	
+		<link rel="stylesheet" href="/static/CSS/signup.css">	
 
 	</head>
 
@@ -40,11 +41,45 @@
 				</div>
 			</header>
 
+			<!-- <div class="form-group">
+				<form>
+					<input type="text" class="form-control" placeholder="First Name">
+					<input type="text" class="form-control" placeholder="Last Name">
+					<input type="text" class="form-control" placeholder="Username">
+					<input type="text" class="form-control" placeholder="Email">
+					<input type="password" class="form-control" placeholder="Password">
+
+					<button class="btn btn-default" type="submit">Sign Up</button>
+				</form>
+			</div> -->
+			
+			<div id="formContainer">
+				<form method="POST" action="/signup">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="First Name" name="user[firstName]">
+							<br/>
+						<input type="text" class="form-control" placeholder="Last Name" name="user[lastName]">
+							<br/>
+						<input type="text" class="form-control" placeholder="Username" name="user[userName]">
+							<br/>
+						<input type="text" class="form-control" placeholder="Email" name="user[email]">
+							<br/>
+						<input type="password" class="form-control" placeholder="Password" name="user[password]">
+							<br/>
+						<label>
+	      					<input type="checkbox" id="rememberUser"> Remember Me
+	   					</label>
+
+						<button class="btn btn-default" type="submit">Sign Up</button>
+					</div>
+				</form>
+			</div>
+
 			<!-- <button type="submit" class="btn-lg btn-success" method="POST" action="/login">LogIn</button> -->
 
-			<a href="/login"><button class="btn-lg btn-primary">LogIn</button></a>
+			<a href="/login"><button class="btn btn-lg btn-primary">LogIn</button></a>
 
-			<a href="/"><button class="btn-lg btn-info">Home</button></a>
+			<a href="/"><button class="btn btn-lg btn-info">Home</button></a>
 
 
 			<!-- Content -->
@@ -54,3 +89,17 @@
 		</div>
 		
 	</body>
+</html>
+
+
+
+
+<!--
+////////////////////////////////////////////////////////////////////
+
+//// notes
+
+	-design: Have the picture I took a while ago of the edited page and have it as the background of the page. Starting aboove the sign up form, it will fade as it goes down, eventually being completely invisible.
+
+////////////////////////////////////////////////////////////////////
+-->
