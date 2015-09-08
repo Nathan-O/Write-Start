@@ -26,8 +26,9 @@
 			<!-- Bootstrap CSS -->
 		<link rel="stylesheet" href="/vender/bootstrap/dist/css/bootstrap.min.css">
 
-			<!-- Local -->
-		<script type="text/javascript" src="/static/JS/app.js"></script>	
+			<!-- Local -->	
+		<script type="text/javascript" src="/static/JS/app.js"></script>
+
 		<link rel="stylesheet" href="/static/CSS/main.css">	
 
 	</head>
@@ -36,32 +37,189 @@
 		<div class="container" id="page-wrapper">
 			<header>
 				<div class="page-header">
-					<h1>Hello <small>World</small></h1>
+					<h1 class="page-title" id="site-title">Hello <small>World</small></h1>
 				</div>
 			</header>
 
-			<!-- <button class="btn-lg btn-warning" method="POST" action="/login">LogIn</button> -->
+				<!-- To Find Logged In User -->
+			<!-- <div class="col-md-4">
+				<div class="well">
+					<div id="check-log-placeholder"></div>
+					<button class="btn btn-sm btn-primary" id="who-logged">Who's Logged In?</button>
+				</div>
+			</div> -->
 
-			
-
-			<!-- Redirects to Login w/out HTTP request -->
+			<br/>
+				<!-- Redirects to Login w/out HTTP request -->
 			<a href="/login"><button class="btn btn-lg btn-warning">LogIn</button></a>
-			
-			<p>* Side note: <strong>Don't</strong> click buttons with this ( <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> ) sybmol</p>
+			<br/>
 
-			<div id="insult-placeholder"></div>
+
+
+
+				<!-- Pop Out Mini-profile -->
+			<div class="row">
+				<div class="col-md-3 media" id="pop-profile"> <!-- size 64X64 or smaller -->
+					<div class="media col-md-12">
+						<div class="media-body col-12">
+							<div class="media-left col-md-8">
+								<h5>Username</h5>
+								<div class="btn-toolbar" role="toolbar">
+										<!-- Will * TRY * to have notifications -->
+									<div class="btn-group" role="group" id="notification-contianer">
+										<button type="button" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>
+										<button type="button" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></button>
+										<button type="button" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span></button>
+									</div>
+									<div class="btn-group" role="group" id="profile-logout">
+										<a href="/profile"><button type="button" class="btn btn-xs btn-info">Profile</button></a>
+										<form method="POST" action="/logout?_method=DELETE">
+											<button class="btn btn-xs btn-info" type="submit">Logout</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class ="media-right col-md-2">
+								<div id="img-wrap">
+									<img class="media-object img-thumbnail" id="minpro-pic" src="/static/img/ProfilePic_placeholder.png">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+			
+			
+			<div class="col-md-12" id="app-guidelines">
+				<h2 class="info">Information Blurb</h2>
+				<h3>Rules(ish):</h3><br/>
+					<!--testing out a bootstrap abbreviation -->
+				<abbr title="HyperText Markup Language" class="initialism">HTML</abbr>
+
+				<h4>Editing:</h4>
+				<div class="col-md-offset-1">
+					<blockquote>
+							<!-- (Quote: Don't Be a Dick. - Wil Wheaton) -->
+						<p>Don't be a d@%k.</p>
+						<footer>Wil Wheaton <cite title="Source Title">Twitter</cite></footer>
+					</blockquote>
+				</div>
+					
+				<p>This project is meant for writers of all skill levels, profession levels, and styles/types. Please keep all comments and edit on a constructive and for the benefit of the story only. If what you have to say is against the writer or generally unhelpful...maybe skip it.</p> 
+
+				<h4>Being edited:</h4>
+
+				<p>No one enjoys having their babies torn apart, their precious words and descriptions chopped and gutted with the ominous red ink; but a good story needs good editing.</p> 
+				<div class="col-md-offset-1">
+					<blockquote>
+						<p>(Quote):  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+						<footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
+					</blockquote>
+				</div>
+				<p>And who better to help you edit than others who share your passion. The aim of the game is to keep a thick skin and find what the editor meant with a particular cross out or suggested change. You can't be 100% objective about your own words, so take all edits into consideration, and keep in mind that the work is yours - any edits you don't agree with can simply be ignored. </p>
+				<br/>
+				<div class="row">
+					<div class="col-md-9" id="midPage-divider">
+						<br/>
+						<p>* Side note: <strong>Don't</strong> click buttons with this ( <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> ) sybmol</p>
+
+						<div id="insult-placeholder"></div>
+					</div>
+				</div>
+			</div>
 
 			<!-- Content -->
 
+			<div class="col-md-9" id="newestStories">
+				<br/>
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h1>Most Recent <small>Stories</small></h1>
+					</div>
+					<div class="panel-body">
+							<!-- USE TABLE FOR STORIES LIST -->
+						<div id="!!!!!!!!!!!!!!!!!!! WILL BE A PLACEHOLDER !!!!!!!"><p>Parllos</p></div>
+
+						<ul class="list-unstyled">
+							<li>
+								<div class="row">
+									<div class="col-me-7" id="story-line">
+										<p><span class="label label-info">New</span> <span><h5>Words words</h5></span> <p>Words words words words words words words. <span><h5>Written by: <small>Wordy Wordsmith</small></span></p>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="row">
+									<div class="col-me-7" id="story-line">
+										<p><span class="label label-info">New</span> <span><h5>Words words</h5></span> <p>Words words words words words words words <span><h5>Written by: <small>Wordy Wordsmith</small></span></p>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="row">
+									<div class="col-me-7" id="story-line">
+										<p><span class="label label-info">New</span> <span><h5>Words words</h5></span> <p>Words words words words words words words. <span><h5>Written by: <small>Wordy Wordsmith</small></span></p>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="row">
+									<div class="col-me-7" id="story-line">
+										<p><span class="label label-info">New</span> <span><h5>Words words</h5></span> <p>Words words words words words words words. <span><h5>Written by: <small>Wordy Wordsmith</small></span></p>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="row">
+									<div class="col-me-7" id="story-line">
+										<p><span class="label label-info">New</span> <span><h5>Words words</h5></span> <p>Words words words words words words words. <span><h5>Written by: <small>Wordy Wordsmith</small></span></p>
+									</div>
+								</div>
+							</li>
+						</ul>
+
+						<p>Words words words words words words words words. Words words words words. Words. Words words words words words words. Words words words words words words words words. Words words words words. Words. Words words words words words words. Words words words words words words words words. Words words words words. Words. Words words words words words words. Words words words words words words words words. Words words words words. Words. Words words words words words words. Words words words words words words words words. Words words words words. Words. Words words words words words words. Words words words words words words words words. Words words words words. Words. Words words words words words words.</p>
+						<p>Words words words words words words words words. Words words words words. Words. Words words words words words words. Words words words words words words words words. Words words words words. Words. Words words words words words words. Words words words words words words words words. Words words words words. Words. Words words words words words words.</p>
+						<p>Words words words words words words words words. Words words words words. Words. Words words words words words words. Words words words words words words words words. Words words words words. Words. Words words words words words words. Words words words words words words words words. Words words words words. Words. Words words words words words words.Words words words words words words words words. Words words words words. Words. Words words words words words words. Words words words words words words words words. Words words words words. Words. Words words words words words words. Words words words words words words words words. Words words words words. Words. Words words words words words words.Words words words words words words words words. Words words words words. Words. Words words words words words words. Words words words words words words words words. Words words words words. Words. Words words words words words words. Words words words words words words words words. Words words words words. Words. Words words words words words words.</p>
+						<p>Words words words words words words words words. Words words words words. Words. Words words words words words words. Words words words words words words words words. Words words words words. Words. Words words words words words words. Words words words words words words words words. Words words words words. Words. Words words words words words words.</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12" id="footer-divider"></div>
+			</div>
+
 			<footer>
-				<p>Made by <a href="https://github.com/Nathan-O">Nathan-O</a></p>
-				<button type="submit" class="btn btn-xs btn-danger" id="testTest"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></button>
+				<div class="row">
+					<div class="col-md-12" id="footer-container">
+						<div class="row">
+							<div class="col-md-11" id="signature">
+								<p>Made by <a href="https://github.com/Nathan-O">Nathan-O</a></p>
+							</div>
+							<div class="col-md-1" id="nope-button">
+								<button type="submit" class="btn btn-xs btn-danger" id="testTest"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</footer>
 		</div>
 		
 	</body>
 
 	<!-- TEMPLATES -->
+	<script type="text/template" id="check-log-template">
+		<div>
+			<ul>
+				<li> <%= userName %> </li>
+				<li> <%=firstName%> <%=lastName%> </li>
+			</ul>
+		</div>
+	</script>
 
 	<script type="text/template" id="insult-template">
 		<div class="insult jumbotron">

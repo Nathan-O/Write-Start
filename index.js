@@ -6,47 +6,49 @@
 /////////////////////////////////////////////////////////
 */
 
-// REQUIREMENTS //
+// * REQUIREMENTS * //
 var express = require("express");
 var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
 var session = require("express-session");
 var path = require("path");
 var _ = require("underscore");
+var methodOverride = require("method-override");
+var keygen = require("keygenerator");
 var db = require("./models");
-//var dataTest = require("./models/initial.js");
 
 var app = express();
 
-// CONFIG //
+// * CONFIG * //
 app.use("/static", express.static("public"));
 app.use("/vender", express.static("bower_components"));
 
+
+app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
 var views = path.join(process.cwd(), "views/");
 
-//test
-//var dataTest = path.join(process.cwd(), "models/initial.js");
 
-// Create Session //
+// * Create Session * //
 app.use(
 	session({
-		secret: "secret (need change)",
+		secret: keygen._({specials: true}),
 		resave: false,
 		saveUninitialized: true
 	})
 );
 
-//** needs changed when add DB **//
+
+// extend req abilities 
 app.use(function (req, res, next){
 	// for login
 	req.login = function (user){
 		req.session.userId = user._id;
 	};
 
-	//get current user for profile
+	// get current user for profile
 	req.currentUser = function (callback){
 		db.User.findOne({ _id: req.session.userId }, function (err, user) {
         req.user = user;
@@ -54,17 +56,20 @@ app.use(function (req, res, next){
       });
 	};
 
-	//log out user
+	// log out user
 	req.logout = function(){
 		req.session.UserId = null;
 		req.user = null;
+		console.log("Session id: " + req.session.UserId);
+		console.log("User: " + req.user);
+		res.clearCookie("guid");
 	};
 
 	next();
 });
 
 
-// ROUTES //
+// * ROUTES * //
 app.get("/", function (req, res){
 	res.sendFile(path.join(views + "index.html"));
 });
@@ -93,18 +98,27 @@ app.get("/just...why", function (req, res){
 	res.sendFile(path.join(views + "nope.html"));
 });
 
-//************** delete for production
+//************** delete for production *****************//
+
 app.get("/users", function (req, res){
     db.User.find({}, function (err, users) {
 		res.send(users);
 	});
 });
 
-/////////////////////////////////////////
-//test routes
-/*app.post("/", function (req, res) {
-	res.redirect("/login");
-});*/
+app.get("/logged", function (req, res){
+	db.User.find({ _id: req.session.userId }, function (err, user) {
+		if (err){
+			console.log(err);
+			res.send("No One");
+		}
+    	res.send(user);
+	});
+});
+
+//*****************************************************//
+
+// * POST ROUTES * //
 
 app.post(["/login", "/api/session"], function (req, res){
 	var user = req.body.user;
@@ -112,10 +126,15 @@ app.post(["/login", "/api/session"], function (req, res){
   	var password = user.password;
 
   	db.User.authenticate(email, password, function (err, user) {
-  		req.login(user);
-  		res.cookie("guid", user._id);
-  		res.redirect("/profile"); 
-    	/*res.send(email + " is logged in\n");*/
+  		if (err) {
+  			console.log(err);
+  			res.redirect("/signup");
+  		} else {
+  			req.login(user);
+  			res.cookie("guid", user._id);
+  			res.redirect("/profile"); 
+  			/*res.send(email + " is logged in\n");*/
+  		};
   	});
 });
 
@@ -135,7 +154,9 @@ app.post(["/signup", "/api/users"], function signup(req, res) {
 	// create the new user
 	db.User.createSecure(userName, firstName, lastName, email, password, function (err, user) {
 		console.log("Created Secure")
-		if (err) {console.log(err);}
+		if (err) {
+			console.log(err);
+		}
 		req.login(user);
 		res.cookie("guid", user._id);
 		console.log("logged In")
@@ -143,10 +164,16 @@ app.post(["/signup", "/api/users"], function signup(req, res) {
 	});	
 });
 
+// * DELETE ROUTE * //
+app.delete(["/logout", "api/session"], function (req, res){
+	console.log("clicked");
+	req.logout();
+	console.log("logged out");
+	res.redirect("/");
+})
 
 
-
-// SERVER // 
+// * SERVER * // 
 app.listen(3000, function(){
 	console.log("Listening on localhost:3000");
 	console.log("Shit ain't fucked yet.");

@@ -2,6 +2,7 @@ $(document).ready(function(){
 	$("#testTest").on("click", function(e){
 		renderTest();
 	});
+
 })
 
 ///////////////////////////////////////////////////////
@@ -11,6 +12,7 @@ $(document).ready(function(){
 var testOb = {
 	name: "Dumbass"
 };
+
 
 function renderTest(){
 	var insultTemplate = _.template($("#insult-template").html());
