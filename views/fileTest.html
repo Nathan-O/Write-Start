@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<title>WriteStart</title>
+
+			<!-- Fonts -->	<!-- USE: font-family: 'Special Elite', cursive; -->
+		<link href='https://fonts.googleapis.com/css?family=Special+Elite' rel='stylesheet' type='text/css'>
+			<!-- jQuery -->
+		<script type="text/javascript" src="/vender/jquery/dist/jquery.min.js"></script>
+			<!-- Underscore -->
+		<script type="text/javascript" src="/vender/underscore/underscore-min.js"></script>
+			<!-- Bootstrap JS -->
+		<script type="text/javascript" src="/vender/bootstrap/dist/js/bootstrap.min.js"></script>
+			<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="/vender/bootstrap/dist/css/bootstrap.min.css">
+
+			<!-- Local -->	
+		<script type="text/javascript" src="/static/JS/app.js"></script>
+		<script type="text/javascript" src="/static/JS/fileTest.js"></script>
+		<link rel="stylesheet" href="/static/CSS/main.css">	
+
+	</head>
+
+	<body>
+		<div class="container" id="page-wrapper">
+			<header>
+				<div class="jumbotron">
+					<h1> File Upload <small>Test</small></h1>
+					<h3>Get it working!!</h3>
+				</div>
+			</header>
+
+			<div class="row">
+				<div class="button-group" role="group">
+					<a href="/"><button type="button" class="btn btn-sm btn-info">Home</button></a>
+				</div>
+			</div>
+
+			<div id="append">
+				<h2>Uploaded Text</h2>
+				<p>Goes here.</p>
+
+			</div>
+
+				<!-- ||| FORM HERE ||| -->
+			<div class="col-md-3 col-md-offset-4">
+				<div class="panel panel-danger">
+					<div class="panel-heading">
+						<h3>Test File Upload (form)</h3>
+					</div>
+					<div class="panel-body">
+							<!-- ****** FORM HERE ****** -->
+						</div class="form-container">	<!-- add after form method!!! enctype="multipart/form-data" -->
+							<form method="POST" enctype="multipart/form-data" action="api/files">
+								<div class="form-group">
+									<!-- <input type="file" class="form-control" name="submission"> -->
+									<textarea class="form-control" id="submittal" name="submission[text]" value="submission"></textarea>
+								</div>
+								<button class="btn btn-default btn-sm" type="submit">Add File</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+				<!-- |||||| Second Form |||||| -->
+			<div class="col-md-3 col-md-offset-4">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3>Test File Upload (not form)</h3>
+					</div>
+					<div class="panel-body">
+							<!-- ****** FORM HERE ****** -->
+						</div class="wrapper">	
+							<form id="tryAgain">
+								<textarea id="submittal" name="submission[text]"></textarea>
+								<br/>
+								<button type="submit" class="btn btn-md btn-default" id="testClick">Add</button> 
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>

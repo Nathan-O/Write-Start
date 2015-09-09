@@ -7,8 +7,8 @@
 */
 
 // * REQUIREMENTS * //
-var express = require("express");
 var bodyParser = require("body-parser");
+var express = require("express");
 var cookieParser = require("cookie-parser");
 var session = require("express-session");
 var path = require("path");
@@ -58,9 +58,9 @@ app.use(function (req, res, next){
 
 	// log out user
 	req.logout = function(){
-		req.session.UserId = null;
+		req.session.userId = null;
 		req.user = null;
-		console.log("Session id: " + req.session.UserId);
+		console.log("Session id: " + req.session.userId);
 		console.log("User: " + req.user);
 		res.clearCookie("guid");
 	};
@@ -85,7 +85,7 @@ app.get("/signup", function (req, res){
 app.get("/profile", function (req, res){
 	console.log("Profile route");
 	req.currentUser(function (err, currentUser){
-		console.log(currentUser);
+		//console.log(currentUser);
 		if (currentUser === null){
 			res.redirect("/signup");
 		} else {
@@ -99,6 +99,24 @@ app.get("/just...why", function (req, res){
 });
 
 //************** delete for production *****************//
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+
+app.get("/fileTest", function (req, res){
+	res.sendFile(path.join(views + "fileTest.html"));
+});
+
+app.post(["/fileTest", "/api/files"], function (req, res){
+	//code
+	console.log("req = " + req);
+	console.log("req.body = " + req.body);
+	console.log("req[0] = " + req[0]);
+	//console.log("req.body.submission.text = " + req.body.submission.text)
+	console.log("Test file submitted as: " + req.body.submission);
+	var testOb = req.body;
+	console.log(testOb)
+	res.send(req);
+});
 
 app.get("/users", function (req, res){
     db.User.find({}, function (err, users) {
@@ -116,6 +134,8 @@ app.get("/logged", function (req, res){
 	});
 });
 
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
 //*****************************************************//
 
 // * POST ROUTES * //
@@ -163,6 +183,81 @@ app.post(["/signup", "/api/users"], function signup(req, res) {
 		res.redirect("/profile"); 
 	});	
 });
+
+app.post(["/profile", "/api/test"], function (req, res){
+	res.send(file);
+});
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// TEST FOR FILE SUBMISSIONS //
+//
+//
+//		-- form is posted from profile.html (3 data values)
+//
+//		-- db.User.findOne() returns  correct user
+//		
+//		-- db.Submission.create() indeed triggers the function (seemingly) correctly
+//
+//
+//
+app.post(["/submissions", "/api/submissions"], function (req, res){
+	console.log("File Add Clicked"); //does		//			* * FULL TERMINAL LOG * *
+												//			* *		   BELOW	  * *
+	var newSubmission = req.body.submission;	//	
+	console.log(newSubmission);	//does			// <--- * Here it logs as an object populated 
+	 							     			// 		with all the correct data from the html form.
+	db.User.findOne({ _id: req.session.userId }, function (err, user) {
+		if (err) {								//
+			return console.log(err); //no		// <--- * Routed back to profile 
+		};										// 			while checking for user. (I think)
+		db.Submission.create(newSubmission, function (err, submission){
+			if (err){							//		   	     /^\
+				return console.log(err); //no	//				  | * From here.
+			};									//		 		  |
+			console.log(submission) //does		// <--- * Here submission logs as an object containing 
+			console.log("Sub Created");	//does	//			submissions (plural) and an empty array as 
+			user.submissions.push(submission);	//			a key value pair. Pushes to db (correct user) as so.
+												//	_________________________________________________________________
+			user.save(function (err, success){	//	|	  			**	// TERMINAL LOG //	**						|
+				if (err){	//no				//	|  	{ __v: 0,													|
+					return console.log(err);	//	|  	  _id: 55efa99b4d0b4afef12aec62,							|
+				};								//	|  	  submissions: [],											|	
+				console.log("It worked?");//does /	|  	  dateCreated: Tue Sep 08 2015 20:37:27 GMT-0700 (PDT) }	|
+			});									//	|_______________________________________________________________|
+		});										//		
+	});											//		submission.title;
+	res.redirect("/profile"); //does			//		submission.genre;	<-- Form (req) object keys
+});												//		submission.file
+												//	
+							//////////////////////////////////////////////////////////////////////////////////	
+							//////////////////////////////////////////////////////////////////////////////////
+							/////////////////////////	   -------------------		//////////////////////////
+							/////////////////////////		FULL TERMIANL LOG 		//////////////////////////
+							//////																		//////	
+							//////		- File Add Clicked 												//////
+							//////																		//////
+							//////		- { title: 'Parllos', genre: 'Horror', file: 'Parllos.docx' }	//////
+							//////																		//////
+							//////		- Profile route 												//////
+							//////																		//////
+							//////		- { __v: 0, 													//////	
+							//////		  _id: 55efa99b4d0b4afef12aec62, 								//////												
+							//////		  submissions: [], 												//////
+							//////		  dateCreated: Tue Sep 08 2015 20:37:27 GMT-0700 (PDT) } 		//////
+							//////																		//////
+							//////		- Sub Created 													//////
+							//////																		//////
+							//////		- It worked? 													//////
+							//////																		//////
+							//////		- submission.file 												//////
+							//////																		//////
+							//////////////////////////////////////////////////////////////////////////////////
+							//////////////////////////////////////////////////////////////////////////////////
+							//////////////////////////////////////////////////////////////////////////////////
+							//////////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // * DELETE ROUTE * //
 app.delete(["/logout", "api/session"], function (req, res){

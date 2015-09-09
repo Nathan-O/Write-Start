@@ -4,15 +4,25 @@ var bcrypt = require("bcrypt");
 
 // *** SCHEMAS *** //
 
+// Submission Schema (Embedded)
+var Submission = new Schema({
+      title: String,
+      description: String,
+      file: String,
+      timestamp: {type: Date, default: Date.now()},
+      //suggestedEdits: [Edits]
+      });               // ^ reference
+
 // User Schema
 var UserSchema = new Schema({
-              userName: {type: String, required: true},
-              firstName: {type: String, required: true},
-              lastName: {type: String, required: true},
-              email: {type: String, required: true},
-              passwordDigest: {type: String, required: true},
-              dateCreated: {type: Date, default: Date.now()}
-              });
+              userName: String,
+              firstName: String,
+              lastName: String,
+              email: String,
+              passwordDigest: String, 
+              dateCreated: {type: Date, default: Date.now()},
+              submissions: [Submission]
+              });           // ^ Embedded
 
 
 
@@ -58,7 +68,7 @@ UserSchema.statics.authenticate = function (email, password, callback){
   });
 };
 
-// * METHODS * //
+// *** METHODS *** //
 
 //compare entered password against hashed passwordDigest
 UserSchema.methods.checkPassword = function (password){
@@ -66,10 +76,12 @@ UserSchema.methods.checkPassword = function (password){
   return bcrypt.compareSync(password, this.passwordDigest);
 };
 
-// Define user model
+// Define models
+var Submission = mongoose.model("Submission", Submission)
 var User = mongoose.model("User", UserSchema);
 
 // export model
+module.exports = Submission;
 module.exports = User;
 
 
