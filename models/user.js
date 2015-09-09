@@ -7,7 +7,7 @@ var bcrypt = require("bcrypt");
 // Submission Schema (Embedded)
 var Submission = new Schema({
       title: String,
-      description: String,
+      genre: String,
       file: String,
       timestamp: {type: Date, default: Date.now()},
       //suggestedEdits: [Edits]

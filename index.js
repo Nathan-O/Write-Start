@@ -202,9 +202,9 @@ app.post(["/profile", "/api/test"], function (req, res){
 //
 app.post(["/submissions", "/api/submissions"], function (req, res){
 	console.log("File Add Clicked"); //does		//			* * FULL TERMINAL LOG * *
-												//			* *		   BELOW	  * *
-	var newSubmission = req.body.submission;	//	
-	console.log(newSubmission);	//does			// <--- * Here it logs as an object populated 
+	console.log(req.body);											//			* *		   BELOW	  * *
+	/*var newSubmission = req.body.submission;	//	
+	console.log(newSubmission);	//does*/			// <--- * Here it logs as an object populated 
 	 							     			// 		with all the correct data from the html form.
 	db.User.findOne({ _id: req.session.userId }, function (err, user) {
 		if (err) {								//
