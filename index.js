@@ -72,32 +72,6 @@ app.use(function (req, res, next){
 
 
 // * ROUTES * //
-/*app.get("/", function (req, res){
-	res.sendFile(path.join(views + "index.html"));
-});*/
-
-/*app.get("/login", function (req, res){
-	res.sendFile(path.join(views + "login.html"));
-});*/
-
-/*app.get("/signup", function (req, res){
-	res.sendFile(path.join(views + "signup.html"));
-});*/
-
-/*app.get("/profile", function (req, res){
-	console.log("Profile route");
-	req.currentUser(function (err, currentUser){
-		//console.log(currentUser);
-		if (currentUser === null){
-			res.redirect("/signup");
-		} else {
-			res.sendFile(views + "profile.html");
-		}
-	})
-});*/
-/////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//	EJS TEST ROUTE
 
 app.get("/", function (req, res){
 	res.render("index.ejs");
@@ -132,10 +106,6 @@ app.get("/just...why", function (req, res){
 
 /////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
-
-/*app.get("/just...why", function (req, res){
-	res.sendFile(path.join(views + "nope.html"));
-});*/
 
 //************** delete for production *****************//
 //////////////////////////////////////////////////////////
@@ -225,9 +195,9 @@ app.post(["/signup", "/api/users"], function signup(req, res) {
 
 // MAY NOT NEED THIS
 // DONT THINK IT'S ANYTHING
-app.post(["/profile", "/api/test"], function (req, res){
-	res.send(file);
-});
+// app.post(["/profile", "/api/test"], function (req, res){
+// 	res.send(file);
+// });
 
 app.post(["/submissions", "/api/submissions"], function (req, res) {
 	console.log("Got there!!");
@@ -253,82 +223,34 @@ app.post(["/submissions", "/api/submissions"], function (req, res) {
 				};
 				console.log("It worked?");
 			});
+			res.redirect("/profile"); 
 		//});
 	});
 });
 
-/*
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// TEST FOR FILE SUBMISSIONS //
-//
-//
-//		-- form is posted from profile.html (3 data values)
-//
-//		-- db.User.findOne() returns  correct user
-//		
-//		-- db.Submission.create() indeed triggers the function (seemingly) correctly
-//
-//
-//
-app.post(["/submissions", "/api/submissions"], function (req, res){
-	console.log("File Add Clicked"); //does		//			* * FULL TERMINAL LOG * *
-	console.log(req.body);											//			* *		   BELOW	  * *
-	/*var newSubmission = req.body.submission;	//	
-	console.log(newSubmission);	//does*/			// <--- * Here it logs as an object populated 
-	 							     			// 		with all the correct data from the html form.
-// 	db.User.findOne({ _id: req.session.userId }, function (err, user) {
-// 		if (err) {								//
-// 			return console.log(err); //no		// <--- * Routed back to profile 
-// 		};										// 			while checking for user. (I think)
-// 		db.Submission.create(newSubmission, function (err, submission){
-// 			if (err){							//		   	     /^\
-// 				return console.log(err); //no	//				  | * From here.
-// 			};									//		 		  |
-// 			console.log(submission) //does		// <--- * Here submission logs as an object containing 
-// 			console.log("Sub Created");	//does	//			submissions (plural) and an empty array as 
-// 			user.submissions.push(submission);	//			a key value pair. Pushes to db (correct user) as so.
-// 												//	_________________________________________________________________
-// 			user.save(function (err, success){	//	|	  			**	// TERMINAL LOG //	**						|
-// 				if (err){	//no				//	|  	{ __v: 0,													|
-// 					return console.log(err);	//	|  	  _id: 55efa99b4d0b4afef12aec62,							|
-// 				};								//	|  	  submissions: [],											|	
-// 				console.log("It worked?");//does /	|  	  dateCreated: Tue Sep 08 2015 20:37:27 GMT-0700 (PDT) }	|
-// 			});									//	|_______________________________________________________________|
-// 		});										//		
-// 	});											//		submission.title;
-// 	res.redirect("/profile"); //does			//		submission.genre;	<-- Form (req) object keys
-// });												//		submission.file
-												//	
-							//////////////////////////////////////////////////////////////////////////////////	
-							//////////////////////////////////////////////////////////////////////////////////
-							/////////////////////////	   -------------------		//////////////////////////
-							/////////////////////////		FULL TERMIANL LOG 		//////////////////////////
-							//////																		//////	
-							//////		- File Add Clicked 												//////
-							//////																		//////
-							//////		- { title: 'Parllos', genre: 'Horror', file: 'Parllos.docx' }	//////
-							//////																		//////
-							//////		- Profile route 												//////
-							//////																		//////
-							//////		- { __v: 0, 													//////	
-							//////		  _id: 55efa99b4d0b4afef12aec62, 								//////												
-							//////		  submissions: [], 												//////
-							//////		  dateCreated: Tue Sep 08 2015 20:37:27 GMT-0700 (PDT) } 		//////
-							//////																		//////
-							//////		- Sub Created 													//////
-							//////																		//////
-							//////		- It worked? 													//////
-							//////																		//////
-							//////		- submission.file 												//////
-							//////																		//////
-							//////////////////////////////////////////////////////////////////////////////////
-							//////////////////////////////////////////////////////////////////////////////////
-							//////////////////////////////////////////////////////////////////////////////////
-							//////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// test post routes for searchbar
+
+app.post(["/user-profile", "/api/user-profile"], function (req, res){
+	console.log("Routed to /api/user-profile");
+	var test = req.body; 
+	console.log(test);	// <-- logs as {name: 'Nathan'} // need to split the endered string and set firstName lastName
+	db.User.findOne(test, function (err, user){
+		if (err){
+			console.log(err);
+			res.redirect("/notfound") // <-- need to make this route and page!!!!!!!
+		};
+		console.log(user)
+		res.send(user);
+	})
+});
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // * DELETE ROUTE * //
 app.delete(["/logout", "api/session"], function (req, res){

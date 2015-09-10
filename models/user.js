@@ -77,11 +77,11 @@ UserSchema.methods.checkPassword = function (password){
 };
 
 // Define models
-var Submission = mongoose.model("Submission", Submission)
+// var Submission = mongoose.model("Submission", Submission)
 var User = mongoose.model("User", UserSchema);
 
 // export model
-module.exports = Submission;
+// module.exports = Submission;
 module.exports = User;
 
 

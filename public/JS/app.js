@@ -3,6 +3,17 @@ $(document).ready(function(){
 		renderTest();
 	});
 
+	$("#search-box").on("submit", function (e){
+		e.preventDefault();
+		var searchData = $("#search-input").val();
+		var filter = $("#search-filter").val();
+
+		searchFind(filter, searchData);
+
+		// console.log(searchData);
+		// console.log(filter);
+	});
+
 })
 
 
@@ -13,6 +24,43 @@ $(document).ready(function(){
 /////////////////////////////////////////////////////////////
 
 //search
+
+function searchFind(filter, param){
+	console.log(filter);
+	console.log(param);
+	var dataOb = {};
+	//now I need an API route
+	console.log("close")
+	if (filter[0] === "name"){
+		console.log("named")
+		dataOb.name = param;
+		$.post("/api/user-profile", dataOb, function (data, status){
+			alert("Did it go???");
+			console.log("Data: " + data + ", Status: " + status);
+		});
+		//code
+	} else if (filter[0] === "username") {
+		console.log("usernamed");
+		dataOb.userName = param;
+		$.post("/api/user-profile", dataOb, function (data, status){
+			console.log("what about here? did it go?");
+			var resData = data;
+			console.log(resData);
+
+		});
+		//code
+	} else if (filter[0] === "genre") {
+		dataOb.genre = param;
+		//code
+	} else {
+		//code for all?
+	};
+	//cont.
+}
+
+/*
+Still need to make an three more ejs pages and finish routes. Lots of work to do, get on it.
+*/
 
 
 ////////////////////////////////////////////////////////////
@@ -39,3 +87,52 @@ function renderTest(){
 };
 
 ///////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ // notes 
+
+ Search button is clicked. 
+
+Form gets sent to app.js and all values get set to variables
+
+Vars are run through of statement to determine value
+
+Api get request to database
+
+If looking for user run dd.findone with the search input as the parameter. 
+
+If looking for story genre then find all stories in db that have that genre selected. 
+
+Reroute where needed.
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
+
+
+
+
+
+
+
+
+
