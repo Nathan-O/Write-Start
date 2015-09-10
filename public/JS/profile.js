@@ -12,10 +12,10 @@ $(document).on("ready", function(){
 		console.log(storyStyle + " " + name + " " + text);
 
 		var submittal = {
-						title: "",
-						genre: "",
-						content: "",
-						};
+			title: "",
+			genre: "",
+			content: "",
+			};
 
 		submittal.title = name;
 		submittal.genre = storyStyle;

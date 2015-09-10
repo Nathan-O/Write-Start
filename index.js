@@ -28,6 +28,8 @@ app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
+app.set("view engine", "ejs");
+
 var views = path.join(process.cwd(), "views/");
 
 
@@ -70,19 +72,19 @@ app.use(function (req, res, next){
 
 
 // * ROUTES * //
-app.get("/", function (req, res){
+/*app.get("/", function (req, res){
 	res.sendFile(path.join(views + "index.html"));
-});
+});*/
 
-app.get("/login", function (req, res){
+/*app.get("/login", function (req, res){
 	res.sendFile(path.join(views + "login.html"));
-});
+});*/
 
-app.get("/signup", function (req, res){
+/*app.get("/signup", function (req, res){
 	res.sendFile(path.join(views + "signup.html"));
-});
+});*/
 
-app.get("/profile", function (req, res){
+/*app.get("/profile", function (req, res){
 	console.log("Profile route");
 	req.currentUser(function (err, currentUser){
 		//console.log(currentUser);
@@ -92,7 +94,40 @@ app.get("/profile", function (req, res){
 			res.sendFile(views + "profile.html");
 		}
 	})
+});*/
+/////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//	EJS TEST ROUTE
+
+app.get("/", function (req, res){
+	res.render("index.ejs");
 });
+
+app.get("/signup", function (req, res){
+	res.render("signup.ejs");
+});
+
+app.get("/login", function (req, res){
+	res.render("login.ejs");
+});
+
+app.get("/profile", function (req, res){
+	//
+	req.currentUser(function (err, user){
+		if (user === null){
+			res.redirect("/signup");
+		}
+		console.log(user);
+		res.render("profile.ejs", {userInfo: user})
+	});
+});
+
+app.get("/editor", function (req, res){
+	res.render("editor");
+});
+
+/////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 
 app.get("/just...why", function (req, res){
 	res.sendFile(path.join(views + "nope.html"));
@@ -184,6 +219,8 @@ app.post(["/signup", "/api/users"], function signup(req, res) {
 	});	
 });
 
+// MAY NOT NEED THIS
+// DONT THINK IT'S ANYTHING
 app.post(["/profile", "/api/test"], function (req, res){
 	res.send(file);
 });

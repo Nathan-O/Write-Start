@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>WriteStart | Editor</title>
+
+		<script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
+		<script>tinymce.init({selector:'textarea'});</script>
+
+		<% include partials/head %>
+
+	</head>
+
+	<body>
+		<% include partials/headerBar %>
+
+		<div class="container" id="page-wrapper">
+			<header>
+				<div class="jumbotron">
+					<h1> Editor <small>Hack & Slash</small></h1>
+					<h3>Wordsmiths can use hammers too.</h3>
+				</div>
+			</header>
+
+			<div class="row">
+				<div class="button-group" role="group">
+					<a href="/"><button type="button" class="btn btn-lg btn-info">Home</button></a>
+				</div>
+			</div>
+
+			<div class="col-md-12">
+				<div id="editor-wrapper">
+					<div class="panel panel-danger">
+						<div class="panel-heading">
+							<h2>Editor</h2>
+						</div>
+						<div class="panel-body">
+							<div id="form-container">
+								<form> <!--- \\\\\\\\\\\\\\\\\\ HERE ////////////////// -->
+									<div class="form-group" role="group">
+										<textarea class="form-control">Please edit responsibly.</textarea>
+									</div>
+									<button type="submit" class="btn btn-md btn-primary btn-block">Submit Edits</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+
+

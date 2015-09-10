@@ -1,67 +1,15 @@
-<!--
-////////////////////////////////////////////////////////////
-
-					     Write-Start
-						Index - HTML
-
-////////////////////////////////////////////////////////////
--->
-
 <!DOCTYPE html>
 <html>
 
 	<head>
-
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-
 		<title>WriteStart</title>
 
-			<!-- Fonts -->	<!-- USE: font-family: 'Special Elite', cursive; -->
-		<link href='https://fonts.googleapis.com/css?family=Special+Elite' rel='stylesheet' type='text/css'>
-			<!-- jQuery -->
-		<script type="text/javascript" src="/vender/jquery/dist/jquery.min.js"></script>
-			<!-- Underscore -->
-		<script type="text/javascript" src="/vender/underscore/underscore-min.js"></script>
-			<!-- Bootstrap JS -->
-		<script type="text/javascript" src="/vender/bootstrap/dist/js/bootstrap.min.js"></script>
-			<!-- Bootstrap CSS -->
-		<link rel="stylesheet" href="/vender/bootstrap/dist/css/bootstrap.min.css">
-
-			<!-- Local -->	
-		<script type="text/javascript" src="/static/JS/app.js"></script>
-
-		<link rel="stylesheet" href="/static/CSS/main.css">	
+		<% include partials/head %>
 
 	</head>
 
 	<body>
-
-
-		<div class="nav col-md-12" id="top-bar">
-			<div class="row">
-				<div class="col-md-1 col-md-offset-1">
-					<button class="btn btn-info btn-xs">Stories</button>
-				</div>
-				<div class="col-md-1">
-					<button class="btn btn-waring btn-xs">Markets</button>
-				</div>
-				<div class="col-md-2 col-md-offset-1">
-					<h4>Write-Start</h4>
-				</div>
-				<div class="col-md-2 col-md-offset-1">
-					<form class="form-inline">
-						<div class="form-group">
-							<input type="search" class="form-control" placeholder="Search">
-						</div>
-						<button type="submit" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-					</form>
-				</div>
-				<div class="col-md-1 col-md-offset-2">
-					<button type="button" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span></button>
-				</div>
-			</div>
-		</div>
-
+		<% include partials/headerBar %>
 
 		<div class="container" id="page-wrapper">
 			<header>
@@ -70,8 +18,8 @@
 				</div>
 			</header>
 
-			<br/>
-				<!-- Redirects to Login w/out HTTP request -->
+			<!--Body Content -->
+
 			<div class="button-group" role="group">
 				<a href="/login"><button type="button" class="btn btn-lg btn-warning">LogIn</button></a>
 				<a href="/fileTest"><button type="button" class="btn btn-lg btn-info">Test File Page</button></a>
@@ -215,6 +163,7 @@
 				<div class="col-md-12" id="footer-divider"></div>
 			</div>
 
+		
 			<footer>
 				<div class="row">
 					<div class="col-md-12" id="footer-container">
@@ -229,48 +178,7 @@
 					</div>
 				</div>
 			</footer>
+			
 		</div>
-		
 	</body>
-
-	<!-- TEMPLATES -->
-	<script type="text/template" id="check-log-template">
-		<div>
-			<ul>
-				<li> <%= userName %> </li>
-				<li> <%=firstName%> <%=lastName%> </li>
-			</ul>
-		</div>
-	</script>
-
-	<script type="text/template" id="insult-template">
-		<div class="insult jumbotron">
-			<h1> What the Hell?!?! <small>Seriously <%= name %>? </small></h1>
-			<br/>
-			<p>Why do people <em>always</em> do the <strong>opposite</strong> of what they are told?! When someone says don't click a button...<strong><em>don't</em></strong> click that button!</p>
-			<p>Shape up <%= name %></p>
-			<a href="/just...why"><button class="btn-xs btn-danger"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></button></a>
-		</div>									
-	</script>
-
 </html>
-
-
-
-
-
-<!-- 
-///////////////////////////////////////////////////////////////////
-
-/////////// Notes
-
-
-
-////////////////////////////////////////////////////////////////////
-
-/////////// Snippets
-
-
-
-///////////////////////////////////////////////////////////////////
--->

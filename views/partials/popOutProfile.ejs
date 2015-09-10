@@ -1,0 +1,30 @@
+<div class="row">
+	<div class="col-md-3 media" id="pop-profile"> <!-- size 64X64 or smaller -->
+		<div class="media col-md-12">
+			<div class="media-body col-12">
+				<div class="media-left col-md-8">
+					<h5>Username</h5>
+					<div class="btn-toolbar" role="toolbar">
+							<!-- Will * TRY * to have notifications -->
+						<div class="btn-group" role="group" id="notification-contianer">
+							<button type="button" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>
+							<button type="button" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></button>
+							<button type="button" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span></button>
+						</div>
+						<div class="btn-group" role="group" id="profile-logout">
+							<a href="/profile"><button type="button" class="btn btn-xs btn-info">Profile</button></a>
+							<form method="POST" action="/logout?_method=DELETE">
+								<button class="btn btn-xs btn-info" type="submit">Logout</button>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class ="media-right col-md-2">
+					<div id="img-wrap">
+						<img class="media-object img-thumbnail" id="minpro-pic" src="/static/img/ProfilePic_placeholder.png">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
