@@ -126,12 +126,16 @@ app.get("/editor", function (req, res){
 	res.render("editor");
 });
 
+app.get("/just...why", function (req, res){
+	res.render("nope.ejs");
+});
+
 /////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 
-app.get("/just...why", function (req, res){
+/*app.get("/just...why", function (req, res){
 	res.sendFile(path.join(views + "nope.html"));
-});
+});*/
 
 //************** delete for production *****************//
 //////////////////////////////////////////////////////////
