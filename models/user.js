@@ -8,7 +8,7 @@ var bcrypt = require("bcrypt");
 var Submission = new Schema({
       title: String,
       genre: String,
-      file: String,
+      content: String,
       timestamp: {type: Date, default: Date.now()},
       //suggestedEdits: [Edits]
       });               // ^ reference

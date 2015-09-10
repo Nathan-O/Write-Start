@@ -7,6 +7,9 @@
 
 		<title>WriteStart</title>
 
+		<script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
+<script>tinymce.init({selector:'textarea'});</script>
+
 			<!-- Fonts -->	<!-- USE: font-family: 'Special Elite', cursive; -->
 		<link href='https://fonts.googleapis.com/css?family=Special+Elite' rel='stylesheet' type='text/css'>
 			<!-- jQuery -->
@@ -24,6 +27,7 @@
 		<link rel="stylesheet" href="/static/CSS/main.css">	
 
 	</head>
+
 
 	<body>
 		<div class="container" id="page-wrapper">
@@ -45,6 +49,28 @@
 				<p>Goes here.</p>
 
 			</div>
+
+			<div class="col-md-12">
+				<div id="editor-wrapper">
+					<div class="panel panel-danger">
+						<div class="panel-heading">
+							<h2>Editor</h2>
+						</div>
+						<div class="panel-body">
+							<div id="form-container">
+								<form> <!--- \\\\\\\\\\\\\\\\\ HERE ////////////////// -->
+									<div class="form-group" role="group">
+										<textarea class="form-control">Easy! You should check out MoxieManager!</textarea>
+									</div>
+									<button type="submit" class="btn btn-md btn-primary btn-block">Submit Edits</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			 
 
 				<!-- ||| FORM HERE ||| -->
 			<div class="col-md-3 col-md-offset-4">

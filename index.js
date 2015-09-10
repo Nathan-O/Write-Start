@@ -188,6 +188,35 @@ app.post(["/profile", "/api/test"], function (req, res){
 	res.send(file);
 });
 
+app.post(["/submissions", "/api/submissions"], function (req, res) {
+	console.log("Got there!!");
+	console.log(req.body);
+	newSubmission = req.body;
+	db.User.findOne({ _id: req.session.userId}, function (err, user){
+		if (err){
+			return console.log("findOne ERR = " + err);
+		};
+
+		/*db.Submission.create(newSubmission, function (err, submission){
+			if (err){
+				return console.log("create(sub) ERR = " + err);
+			};
+			console.log(submission);
+			console.log("Sub Created");*/
+
+			user.submissions.push(newSubmission);
+
+			user.save(function (err, success){
+				if (err){
+					return console.log("During Save ERR = " + err);
+				};
+				console.log("It worked?");
+			});
+		//});
+	});
+});
+
+/*
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // TEST FOR FILE SUBMISSIONS //
 //
@@ -206,28 +235,28 @@ app.post(["/submissions", "/api/submissions"], function (req, res){
 	/*var newSubmission = req.body.submission;	//	
 	console.log(newSubmission);	//does*/			// <--- * Here it logs as an object populated 
 	 							     			// 		with all the correct data from the html form.
-	db.User.findOne({ _id: req.session.userId }, function (err, user) {
-		if (err) {								//
-			return console.log(err); //no		// <--- * Routed back to profile 
-		};										// 			while checking for user. (I think)
-		db.Submission.create(newSubmission, function (err, submission){
-			if (err){							//		   	     /^\
-				return console.log(err); //no	//				  | * From here.
-			};									//		 		  |
-			console.log(submission) //does		// <--- * Here submission logs as an object containing 
-			console.log("Sub Created");	//does	//			submissions (plural) and an empty array as 
-			user.submissions.push(submission);	//			a key value pair. Pushes to db (correct user) as so.
-												//	_________________________________________________________________
-			user.save(function (err, success){	//	|	  			**	// TERMINAL LOG //	**						|
-				if (err){	//no				//	|  	{ __v: 0,													|
-					return console.log(err);	//	|  	  _id: 55efa99b4d0b4afef12aec62,							|
-				};								//	|  	  submissions: [],											|	
-				console.log("It worked?");//does /	|  	  dateCreated: Tue Sep 08 2015 20:37:27 GMT-0700 (PDT) }	|
-			});									//	|_______________________________________________________________|
-		});										//		
-	});											//		submission.title;
-	res.redirect("/profile"); //does			//		submission.genre;	<-- Form (req) object keys
-});												//		submission.file
+// 	db.User.findOne({ _id: req.session.userId }, function (err, user) {
+// 		if (err) {								//
+// 			return console.log(err); //no		// <--- * Routed back to profile 
+// 		};										// 			while checking for user. (I think)
+// 		db.Submission.create(newSubmission, function (err, submission){
+// 			if (err){							//		   	     /^\
+// 				return console.log(err); //no	//				  | * From here.
+// 			};									//		 		  |
+// 			console.log(submission) //does		// <--- * Here submission logs as an object containing 
+// 			console.log("Sub Created");	//does	//			submissions (plural) and an empty array as 
+// 			user.submissions.push(submission);	//			a key value pair. Pushes to db (correct user) as so.
+// 												//	_________________________________________________________________
+// 			user.save(function (err, success){	//	|	  			**	// TERMINAL LOG //	**						|
+// 				if (err){	//no				//	|  	{ __v: 0,													|
+// 					return console.log(err);	//	|  	  _id: 55efa99b4d0b4afef12aec62,							|
+// 				};								//	|  	  submissions: [],											|	
+// 				console.log("It worked?");//does /	|  	  dateCreated: Tue Sep 08 2015 20:37:27 GMT-0700 (PDT) }	|
+// 			});									//	|_______________________________________________________________|
+// 		});										//		
+// 	});											//		submission.title;
+// 	res.redirect("/profile"); //does			//		submission.genre;	<-- Form (req) object keys
+// });												//		submission.file
 												//	
 							//////////////////////////////////////////////////////////////////////////////////	
 							//////////////////////////////////////////////////////////////////////////////////
@@ -258,6 +287,7 @@ app.post(["/submissions", "/api/submissions"], function (req, res){
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 // * DELETE ROUTE * //
 app.delete(["/logout", "api/session"], function (req, res){

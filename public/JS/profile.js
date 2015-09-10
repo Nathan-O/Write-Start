@@ -1,12 +1,15 @@
+console.log("Shoes")
+
 $(document).on("ready", function(){
 	//
 	$("#addNewFile").on("submit", function (event){
-		//event.preventDefault();
-		/*console.log($("textarea[name='submission[content]']").value);
-		var bloop = $("textarea[name='submission[content]']").value;
-		console.log("Bloop = " + bloop);
-		var bleep = submission.content;
-		console.log("Bleep = " + bleep);*/
+		//alert()
+		event.preventDefault();
+		var storyStyle = $("#genre-pick").val();
+		var name = $("#named").val();
+		var text = $("#submitted").val();
+
+		console.log(storyStyle + " " + name + " " + text);
 
 		var submittal = {
 						title: "",
@@ -14,9 +17,9 @@ $(document).on("ready", function(){
 						content: "",
 						};
 
-		submittal.title = submission.title;
-		submittal.genre = submission.genre;
-		submittal.content = submission.content;
+		submittal.title = name;
+		submittal.genre = storyStyle;
+		submittal.content = text;
 
 		$.post("/api/submissions", submittal, function (data, status){
 			alert("WINNING!!!!!!!!!" + data + " " + status);
@@ -28,6 +31,5 @@ $(document).on("ready", function(){
 			data: submittal,
 			success: "success"
 		});*/
-
-	})
-})
+	});
+});
