@@ -334,9 +334,7 @@ app.delete(["/logout", "api/session"], function (req, res){
 	res.redirect("/");
 })
 
-
 // * SERVER * // 
-app.listen(3000, function(){
-	console.log("Listening on localhost:3000");
-	console.log("Shit ain't fucked yet.");
+app.listen(process.env.PORT || 3000, function(){
+	console.log("We're running wild!")
 });
