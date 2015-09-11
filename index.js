@@ -86,21 +86,20 @@ app.get("/", function (req, res){	// <-- needs to have a find all db function th
 				writing.stories.push(submission);	
 			});
 		});
-		//var stories = users.submissions;
-		//console.log(stories);
-		console.log("Writing = ")
-		console.log(writing);
 		res.render("index.ejs", {storyInfo: writing});
 	});
 });
+
 
 app.get("/signup", function (req, res){
 	res.render("signup.ejs");
 });
 
+
 app.get("/login", function (req, res){
 	res.render("login.ejs");
 });
+
 
 app.get("/profile", function (req, res){
 	//
@@ -108,33 +107,30 @@ app.get("/profile", function (req, res){
 		if (user === null){
 			res.redirect("/signup");
 		}
-		console.log(user);
 		res.render("profile.ejs", {userInfo: user});
 	});
 });
 
-app.get("/user-profile", function (req, res){
-	//code
 
-	var userData = req.body;
+app.get("/user-profile", function (req, res){
+
+	var userData = req.body;		// ?? Why is this wrong???
 	console.log(req.body)
-	//console.log("Req = " + req.body);
-	console.log("userData, next log");
-	console.log(userData);
-	console.log("In get user-profile route"); // <-<-<-<-------------------------------------------------------------
-	//res.render("user-profile.ejs" );		  //			"/user-profile" route
+
 	db.User.findOne(userData, function (err, user){
 		if (err){
 			console.log(err);
 			res.redirect("/not-found"); // <-- will have page.
 		};
 		res.render("user-profile.ejs", {userInfo: user});
-	})
-})
+	});
+});
+
 
 app.get("/editor", function (req, res){
 	res.render("editor");
 });
+
 
 app.get("/just...why", function (req, res){
 	res.render("nope.ejs");
@@ -229,68 +225,41 @@ app.post(["/signup", "/api/users"], function signup(req, res) {
 	});	
 });
 
-// MAY NOT NEED THIS
-// DONT THINK IT'S ANYTHING
-// app.post(["/profile", "/api/test"], function (req, res){
-// 	res.send(file);
-// });
+app.post(["/api/editor", "editor"], function (req, res){
+	console.log(req.body);
+
+	var submissionObject = req.body;
+
+	db.User.find({}, function (err, users){
+		users.forEach(function (user) {
+			for (var i = 0; i < user.submissions.length; i++) {
+				//
+				if (user.submissions[i]._id.toString() === submissionObject.data)
+					
+			}
+		})
+	})
+})
 
 app.post(["/submissions", "/api/submissions"], function (req, res) {
-	console.log("Got there!!");
 	console.log(req.body);
 	newSubmission = req.body;
+
 	db.User.findOne({ _id: req.session.userId}, function (err, user){
 		if (err){
 			return console.log("findOne ERR = " + err);
 		};
+		user.submissions.push(newSubmission);
 
-		/*db.Submission.create(newSubmission, function (err, submission){
+		user.save(function (err, success){
 			if (err){
-				return console.log("create(sub) ERR = " + err);
+				return console.log("During Save ERR = " + err);
 			};
-			console.log(submission);
-			console.log("Sub Created");*/
-
-			user.submissions.push(newSubmission);
-
-			user.save(function (err, success){
-				if (err){
-					return console.log("During Save ERR = " + err);
-				};
-				console.log("It worked?");
-			});
-			res.redirect("/profile"); 
-		//});
+			console.log("It worked?");
+		});
+		res.redirect("/profile"); 
 	});
 });
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// test post routes for searchbar
-
-/*app.post(["/user-search", "/api/user-profile"], function (req, res){
-	console.log("Routed to /api/user-profile");
-	var test = req.body; 
-	console.log(test);	// <-- logs as {name: 'Nathan'} // need to split the endered string and set firstName lastName
-	db.User.findOne(test, function (err, user){
-		if (err){
-			console.log(err);
-			res.redirect("/notfound") // <-- need to make this route and page!!!!!!! (AH! Something horrible must have happened, we couldn't find that user anywhere. Certainly hope that they're okay...)
-		};
-		console.log(user)
-		//res.redirect("/user-profile" + user);
-		app.get("/user-profile", function (req, res){
-			console.log("Now redirect with" + user.userName);
-			res.render("/user-profile", {userInfo: user});
-		});	
-	});
-});*/
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // * DELETE ROUTE * //
 app.delete(["/logout", "api/session"], function (req, res) {
@@ -301,33 +270,26 @@ app.delete(["/logout", "api/session"], function (req, res) {
 })
 
 app.delete("/story", function (req, res) {
-	console.log("At Delete Now");
 	console.log(req.body); //<-- equals right stuff
 	var ids = req.body;
 
 	db.User.findOne({_id: ids.data[0]}, function (err, user) { 
         if (err) {
             return console.log(err);
-        }
-        // We walk through the book's comment array checking the ids for the comment we want to delete.
-        for (var i = 0; i < user.submissions.length; i++) {
-            // The id of the comment we want is stored as a string, so we convert the id of the comment into a string to easily compare the two
-            if(user.submissions[i]._id.toString() === ids.data[1]) {
-                //console.log("match found");
-                // When it's found, we remove the comment from the array.
-                user.submissions[i].remove();
-                // We've removed the comment we wanted to remove, so we don't need to check any more of the array, so we break out of the loop.
-                break; 
-            };
         };
-        user.save(function(err, success) {
-            if (err) {
-            	return console.log(err);
-            };
-            res.send(success);
-            //res.redirect("/profile");
-        });
+        for (var i = 0; i < user.submissions.length; i++) {
+        	if (user.submissions[i]._id.toString() === ids[1]) {
+            	user.submissions[i].remove();    
+           		break; 
+           	};
+	    };
 	});
+    user.save(function(err, success) {
+        if (err) {
+        	return console.log(err);
+        };
+        res.send(success);
+    });
 });
 
 // * SERVER * // 

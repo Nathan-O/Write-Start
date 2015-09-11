@@ -2,7 +2,7 @@
 <html>
 
 	<head>
-		<title>WriteStart | Editor</title>
+		<title><%= title %> | Editor</title>
 
 		<script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
 		<script>tinymce.init({selector:'textarea'});</script>
@@ -32,15 +32,15 @@
 				<div id="editor-wrapper">
 					<div class="panel panel-danger">
 						<div class="panel-heading">
-							<h2>Editor</h2>
+							<h1> <%= title %>  <small>Editor</small></h1>
 						</div>
 						<div class="panel-body">
 							<div id="form-container">
-								<form> <!--- \\\\\\\\\\\\\\\\\\ HERE ////////////////// -->
+								<form method="POST" action="/users"> 
 									<div class="form-group" role="group">
 										<textarea class="form-control">Please edit responsibly.</textarea>
 									</div>
-									<button type="submit" class="btn btn-md btn-primary btn-block">Submit Edits</button>
+									<button type="submit" class="btn btn-md btn-danger btn-block">Submit Edits</button>
 								</form>
 							</div>
 						</div>

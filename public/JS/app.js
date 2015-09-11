@@ -25,6 +25,29 @@ $(document).ready(function(){
 
 //search
 
+
+function editSubmission(context){
+	//
+	console.log(context)
+	var editId = context.id;
+	var editObject = {data: editId};
+	console.log(editObject)
+
+	$.ajax({
+		url: "api/editor",
+		type: "POST",
+		data: editObject,
+
+		success: function(res){
+			console.log(res);
+			//
+		}
+	});
+
+
+
+};
+
 function searchFind(filter, param){
 	console.log(filter);
 	console.log(param);
