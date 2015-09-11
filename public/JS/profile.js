@@ -33,3 +33,32 @@ $(document).on("ready", function(){
 		});*/
 	});
 });
+
+function deleteStory(context) {
+	var storyId = context.id;
+	console.log(context)
+	console.log(context.id);
+
+	var ids = storyId.split("=");
+	console.log(ids)
+	//console.log(context.data.id)
+	console.log("storyId")
+	console.log(storyId);
+
+	var idObject = {data: ids};
+	 // We take the id of the button which is equivalent to the mongoDB _id of the book it is related to as well as the _id of the comment.
+   
+    //console.log(commentId);
+    // We send an AJAX DELETE request to the backend with the combination of ids in the data field so we can easily access it via "req.body" on the backend.
+    $.ajax({
+        url: '/story',
+        type: 'DELETE',
+        data: idObject,
+        // If the DELETE request is successful, we re-render all the books.
+        success: function(res){
+            console.log("deletion successful"); 
+            location.reload(); 
+        }
+    });
+};
+

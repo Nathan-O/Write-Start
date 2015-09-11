@@ -32,14 +32,29 @@ function searchFind(filter, param){
 	//now I need an API route
 	console.log("close")
 	if (filter[0] === "name"){
+
 		console.log("named")
-		dataOb.name = param;
-		$.post("/api/user-profile", dataOb, function (data, status){
+		var splitName = param.split(" ");
+
+		console.log(splitName); //works
+
+		dataOb.firstName = splitName[0];
+		dataOb.lastName = splitName[1];
+		console.log(dataOb); //works
+
+		$.get("/user-profile", dataOb, function (data, status){
 			alert("Did it go???");
 			console.log("Data: " + data + ", Status: " + status);
+			console.log(data);
+			var sendData = data;
+			console.log(sendData);
+			//$.get("/user-profile", sendData);
 		});
+		//console.log(data);
+		//$.get("/user-profile", )
 		//code
 	} else if (filter[0] === "username") {
+
 		console.log("usernamed");
 		dataOb.userName = param;
 		$.post("/api/user-profile", dataOb, function (data, status){

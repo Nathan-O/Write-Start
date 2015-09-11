@@ -73,8 +73,25 @@ app.use(function (req, res, next){
 
 // * ROUTES * //
 
-app.get("/", function (req, res){
-	res.render("index.ejs");
+app.get("/", function (req, res){	// <-- needs to have a find all db function that renders usersinfo to the page
+	//
+	db.User.find({}, function (err, users){
+		if (err){
+			console.log(err);
+		};
+		var writing = {stories: []};
+		console.log(users);
+		users.forEach(function (user){
+			user.submissions.forEach(function (submission){
+				writing.stories.push(submission);	
+			});
+		});
+		//var stories = users.submissions;
+		//console.log(stories);
+		console.log("Writing = ")
+		console.log(writing);
+		res.render("index.ejs", {storyInfo: writing});
+	});
 });
 
 app.get("/signup", function (req, res){
@@ -92,9 +109,28 @@ app.get("/profile", function (req, res){
 			res.redirect("/signup");
 		}
 		console.log(user);
-		res.render("profile.ejs", {userInfo: user})
+		res.render("profile.ejs", {userInfo: user});
 	});
 });
+
+app.get("/user-profile", function (req, res){
+	//code
+
+	var userData = req.body;
+	console.log(req.body)
+	//console.log("Req = " + req.body);
+	console.log("userData, next log");
+	console.log(userData);
+	console.log("In get user-profile route"); // <-<-<-<-------------------------------------------------------------
+	//res.render("user-profile.ejs" );		  //			"/user-profile" route
+	db.User.findOne(userData, function (err, user){
+		if (err){
+			console.log(err);
+			res.redirect("/not-found"); // <-- will have page.
+		};
+		res.render("user-profile.ejs", {userInfo: user});
+	})
+})
 
 app.get("/editor", function (req, res){
 	res.render("editor");
@@ -233,19 +269,23 @@ app.post(["/submissions", "/api/submissions"], function (req, res) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // test post routes for searchbar
 
-app.post(["/user-profile", "/api/user-profile"], function (req, res){
+/*app.post(["/user-search", "/api/user-profile"], function (req, res){
 	console.log("Routed to /api/user-profile");
 	var test = req.body; 
 	console.log(test);	// <-- logs as {name: 'Nathan'} // need to split the endered string and set firstName lastName
 	db.User.findOne(test, function (err, user){
 		if (err){
 			console.log(err);
-			res.redirect("/notfound") // <-- need to make this route and page!!!!!!!
+			res.redirect("/notfound") // <-- need to make this route and page!!!!!!! (AH! Something horrible must have happened, we couldn't find that user anywhere. Certainly hope that they're okay...)
 		};
 		console.log(user)
-		res.send(user);
-	})
-});
+		//res.redirect("/user-profile" + user);
+		app.get("/user-profile", function (req, res){
+			console.log("Now redirect with" + user.userName);
+			res.render("/user-profile", {userInfo: user});
+		});	
+	});
+});*/
 
 
 
@@ -253,12 +293,42 @@ app.post(["/user-profile", "/api/user-profile"], function (req, res){
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // * DELETE ROUTE * //
-app.delete(["/logout", "api/session"], function (req, res){
+app.delete(["/logout", "api/session"], function (req, res) {
 	console.log("clicked");
 	req.logout();
 	console.log("logged out");
 	res.redirect("/");
 })
+
+app.delete("/story", function (req, res) {
+	console.log("At Delete Now");
+	console.log(req.body); //<-- equals right stuff
+	var ids = req.body;
+
+	db.User.findOne({_id: ids.data[0]}, function (err, user) { 
+        if (err) {
+            return console.log(err);
+        }
+        // We walk through the book's comment array checking the ids for the comment we want to delete.
+        for (var i = 0; i < user.submissions.length; i++) {
+            // The id of the comment we want is stored as a string, so we convert the id of the comment into a string to easily compare the two
+            if(user.submissions[i]._id.toString() === ids.data[1]) {
+                //console.log("match found");
+                // When it's found, we remove the comment from the array.
+                user.submissions[i].remove();
+                // We've removed the comment we wanted to remove, so we don't need to check any more of the array, so we break out of the loop.
+                break; 
+            };
+        };
+        user.save(function(err, success) {
+            if (err) {
+            	return console.log(err);
+            };
+            res.send(success);
+            //res.redirect("/profile");
+        });
+	});
+});
 
 // * SERVER * // 
 app.listen(process.env.PORT || 3000, function(){
