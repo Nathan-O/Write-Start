@@ -236,7 +236,7 @@ app.post(["/submissions", "/api/submissions"], function (req, res) {
 		};
 		user.submissions.push(newSubmission);
 
-		user.save(function (err, success){
+		user.save(function (err, success) {
 			if (err){
 				return console.log("During Save ERR = " + err);
 			};
