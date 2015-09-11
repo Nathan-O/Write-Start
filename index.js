@@ -225,18 +225,6 @@ app.post(["/signup", "/api/users"], function signup(req, res) {
 	});	
 });
 
-app.post(["/api/editor", "editor"], function (req, res){
-	console.log(req.body);
-
-	var submissionObject = req.body;
-
-	db.User.find({}, function (err, users){
-		users.forEach(function (user) {
-			for (var i = 0; i < user.submissions.length; i++) {
-		
-		})
-	})
-})
 
 app.post(["/submissions", "/api/submissions"], function (req, res) {
 	console.log(req.body);
