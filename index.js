@@ -233,10 +233,7 @@ app.post(["/api/editor", "editor"], function (req, res){
 	db.User.find({}, function (err, users){
 		users.forEach(function (user) {
 			for (var i = 0; i < user.submissions.length; i++) {
-				//
-				if (user.submissions[i]._id.toString() === submissionObject.data)
-					
-			}
+		
 		})
 	})
 })
