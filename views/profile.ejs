@@ -219,10 +219,10 @@
 								<ul class="list-unstyled">
 									<% userInfo.submissions.forEach( function (submission) { %>
 										<li>
-											<div class="submission-page">
+											<div class="submission-page" id=" <%= submission.id %> ">
 												<h4> <%= submission.title %> </h4>
 												<h5><small> <%= submission.genre %> </small></h5>
-												<!-- <button data-id="<%= submission._id %>" onclick="##(this)" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+												<button id="<%=userInfo._id%>=<%= submission._id %>" onclick="return deleteStory(this)" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 											</div>
 										</li>
 									<% }); %>
