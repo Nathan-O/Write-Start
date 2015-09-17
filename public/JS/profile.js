@@ -20,8 +20,11 @@ $(document).on("ready", function(){
 		submittal.title = name;
 		submittal.genre = storyStyle;
 		submittal.content = text;
-
+		/* jc - Thank you for using AJAX :) */
 		$.post("/api/submissions", submittal, function (data, status){
+			/* jc - some data-parsing and ninja work is needed here. Works, though!
+					TODO: fix success notification
+			*/
 			alert("WINNING!!!!!!!!!" + data + " " + status);
 		});
 	});
@@ -39,16 +42,19 @@ function deleteStory(context) {
 	console.log(storyId);
 
 	var idObject = {data: ids};
-	
+		/*
+			Thank you for using AJAX :)
+			TODO: fix Delete
+		*/
+
     $.ajax({
         url: '/story',
         type: 'DELETE',
         data: idObject,
-        
+
         success: function(res){
-            console.log("deletion successful"); 
-            location.reload(); 
+            console.log("deletion successful");
+            location.reload();
         }
     });
 };
-
