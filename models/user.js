@@ -19,7 +19,7 @@ var UserSchema = new Schema({
               firstName: String,
               lastName: String,
               email: String,
-              passwordDigest: String, 
+              passwordDigest: String,
               dateCreated: {type: Date, default: Date.now()},
               submissions: [Submission]
               });           // ^ Embedded
@@ -77,17 +77,10 @@ UserSchema.methods.checkPassword = function (password){
 };
 
 // Define models
-// var Submission = mongoose.model("Submission", Submission)
+/* jc - results will vary when Submission is uncommented. This should be uncommented */
+var Submission = mongoose.model("Submission", Submission)
 var User = mongoose.model("User", UserSchema);
 
 // export model
 // module.exports = Submission;
 module.exports = User;
-
-
-
-
-
-
-
-

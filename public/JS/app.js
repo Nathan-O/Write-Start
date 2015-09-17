@@ -10,6 +10,7 @@ $(document).ready(function(){
 
 		searchFind(filter, searchData);
 
+		/* jc - Please remove unused code in production */
 		// console.log(searchData);
 		// console.log(filter);
 	});
@@ -19,7 +20,7 @@ $(document).ready(function(){
 
 /////////////////////////////////////////////////////////////
 
-				// Partials Functins //
+				// Partials Functions //
 
 /////////////////////////////////////////////////////////////
 
@@ -33,6 +34,9 @@ function editSubmission(context){
 	var editObject = {data: editId};
 	console.log(editObject)
 
+	/* jc - Thank you for using AJAX :) */
+	/* This is very close to working 		*/
+	/* TODO: fix ajax call, to $.post(...)*/
 	$.ajax({
 		url: "api/editor",
 		type: "POST",
@@ -64,9 +68,9 @@ var testOb = {
 
 function renderTest(){
 	var insultTemplate = _.template($("#insult-template").html());
-	/* When info needs to be added to template, 
-	it goes here and gets set to the (var) template() 
-	from above. Run the function with the data as 
+	/* When info needs to be added to template,
+	it goes here and gets set to the (var) template()
+	from above. Run the function with the data as
 	the argument (data must be in object form) */
 	var obOb = testOb;
 	console.log(obOb);
@@ -79,9 +83,15 @@ function renderTest(){
 
 
 /*
+		jc - Please remove unused code in production.
+		kudos for in-file notes, btw
+*/
+
+
+/*
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
- // notes 
+ // notes
 
  Search button is clicked. 
 
@@ -101,13 +111,3 @@ Reroute where needed.
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 */
-
-
-
-
-
-
-
-
-
-

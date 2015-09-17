@@ -43,7 +43,7 @@ app.use(
 );
 
 
-// extend req abilities 
+// extend req abilities
 app.use(function (req, res, next){
 	// for login
 	req.login = function (user){
@@ -74,16 +74,19 @@ app.use(function (req, res, next){
 // * ROUTES * //
 
 app.get("/", function (req, res){	// <-- needs to have a find all db function that renders usersinfo to the page
-	//
+	/* js - Thank you for accessing your database :) */
 	db.User.find({}, function (err, users){
 		if (err){
 			console.log(err);
+			/* Add a sendStatus so we can inform the user of an error as well
+				res.sendStatus(400);
+			*/
 		};
 		var writing = {stories: []};
 		console.log(users);
 		users.forEach(function (user){
 			user.submissions.forEach(function (submission){
-				writing.stories.push(submission);	
+				writing.stories.push(submission);
 			});
 		});
 		res.render("index.ejs", {storyInfo: writing});
@@ -116,10 +119,11 @@ app.get("/user-profile", function (req, res){
 
 	var userData = req.body;		// ?? Why is this wrong???
 	console.log(req.body)
-
+	/* jc - Thank you for accessing your database */
 	db.User.findOne(userData, function (err, user){
 		if (err){
 			console.log(err);
+			/* TODO: make this page */
 			res.redirect("/not-found"); // <-- will have page.
 		};
 		res.render("user-profile.ejs", {userInfo: user});
@@ -131,14 +135,13 @@ app.get("/editor", function (req, res){
 	res.render("editor");
 });
 
-
 app.get("/just...why", function (req, res){
 	res.render("nope.ejs");
 });
 
 /////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
-
+/* jc - lol Please remove unused code in production */
 //************** delete for production *****************//
 //////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////
@@ -159,12 +162,14 @@ app.post(["/fileTest", "/api/files"], function (req, res){
 	res.send(req);
 });
 
+/* jc - Thank you for accessing your database :) */
 app.get("/users", function (req, res){
     db.User.find({}, function (err, users) {
 		res.send(users);
 	});
 });
 
+/* jc - Thank you for accessing your database :) */
 app.get("/logged", function (req, res){
 	db.User.find({ _id: req.session.userId }, function (err, user) {
 		if (err){
@@ -186,6 +191,7 @@ app.post(["/login", "/api/session"], function (req, res){
   	var email = user.email;
   	var password = user.password;
 
+		/* jc - Thank you for accessing your database :) */
   	db.User.authenticate(email, password, function (err, user) {
   		if (err) {
   			console.log(err);
@@ -193,7 +199,7 @@ app.post(["/login", "/api/session"], function (req, res){
   		} else {
   			req.login(user);
   			res.cookie("guid", user._id);
-  			res.redirect("/profile"); 
+  			res.redirect("/profile");
   			/*res.send(email + " is logged in\n");*/
   		};
   	});
@@ -212,6 +218,9 @@ app.post(["/signup", "/api/users"], function signup(req, res) {
 	var password = user.password;
 	var date = Date.now();
 
+	/* jc - Thank you for accessing your database :) */
+	/* jc - Thank you for safely creating users in your database :) */
+
 	// create the new user
 	db.User.createSecure(userName, firstName, lastName, email, password, function (err, user) {
 		console.log("Created Secure")
@@ -221,8 +230,8 @@ app.post(["/signup", "/api/users"], function signup(req, res) {
 		req.login(user);
 		res.cookie("guid", user._id);
 		console.log("logged In")
-		res.redirect("/profile"); 
-	});	
+		res.redirect("/profile");
+	});
 });
 
 
@@ -230,6 +239,7 @@ app.post(["/submissions", "/api/submissions"], function (req, res) {
 	console.log(req.body);
 	newSubmission = req.body;
 
+	/* jc - Thank you for accessing your database :) */
 	db.User.findOne({ _id: req.session.userId}, function (err, user){
 		if (err){
 			return console.log("findOne ERR = " + err);
@@ -242,7 +252,7 @@ app.post(["/submissions", "/api/submissions"], function (req, res) {
 			};
 			console.log("It worked?");
 		});
-		res.redirect("/profile"); 
+		res.redirect("/profile");
 	});
 });
 
@@ -258,14 +268,15 @@ app.delete("/story", function (req, res) {
 	console.log(req.body); //<-- equals right stuff
 	var ids = req.body;
 
-	db.User.findOne({_id: ids.data[0]}, function (err, user) { 
+	/* jc - Thank you for accessing your database :) */
+	db.User.findOne({_id: ids.data[0]}, function (err, user) {
         if (err) {
             return console.log(err);
         };
         for (var i = 0; i < user.submissions.length; i++) {
         	if (user.submissions[i]._id.toString() === ids[1]) {
-            	user.submissions[i].remove();    
-           		break; 
+            	user.submissions[i].remove();
+           		break;
            	};
 	    };
 	});
@@ -277,7 +288,7 @@ app.delete("/story", function (req, res) {
     });
 });
 
-// * SERVER * // 
+// * SERVER * //
 app.listen(process.env.PORT || 3000, function(){
 	console.log("We're running wild!")
 });

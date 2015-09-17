@@ -1,3 +1,8 @@
+/* 	jc - When releasing production code,
+		sweep your project for ghosts and
+		fragments that are unused and remove them;
+		it speeds up the deployment process. 
+*/
 body {
 	background-color: lightgrey;
 }
@@ -14,8 +19,3 @@ body {
 #nope {
 	text-align: center;
 }
-
-
-
-
-
