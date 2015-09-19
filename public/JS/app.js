@@ -3,6 +3,16 @@ $(document).ready(function(){
 		renderTest();
 	});
 
+	$(".btn-edit").on("click", function(e){
+		var toBeEdited = {}
+		toBeEdited.id = $(this).context.attributes[2].textContent;
+		console.log(toBeEdited)
+		$.post("/editor",  toBeEdited, function(res){
+        // append new food to the page
+        console.log(res);
+      });
+	});
+
 	$("#search-box").on("submit", function (e){
 		e.preventDefault();
 		var searchData = $("#search-input").val();
@@ -14,46 +24,31 @@ $(document).ready(function(){
 		// console.log(filter);
 	});
 
+
 })
 
 
-/////////////////////////////////////////////////////////////
-
-				// Partials Functins //
-
-/////////////////////////////////////////////////////////////
-
-//search
-
-
-function editSubmission(context){
+// function editSubmission(context){
+// 	//
+// 	console.log("edit submission called")
+// 	console.log(context);
+	// var editId = context.id;
+	// var editObject = {data: editId};
+	// console.log("READY " , editObject)
 	//
-	console.log(context)
-	var editId = context.id;
-	var editObject = {data: editId};
-	console.log(editObject)
-
-	$.ajax({
-		url: "api/editor",
-		type: "POST",
-		data: editObject,
-
-		success: function(res){
-			console.log(res);
-			//
-		}
-	});
+	// $.ajax({
+	// 	url: "api/editor",
+	// 	type: "POST",
+	// 	data: editObject,
+	//
+	// 	success: function(res){
+	// 		console.log(res);
+	// 		//
+	// 	}
+	// });
 
 
-
-};
-
-
-
-
-
-////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////
+//};
 
 // for test template
 
@@ -64,9 +59,9 @@ var testOb = {
 
 function renderTest(){
 	var insultTemplate = _.template($("#insult-template").html());
-	/* When info needs to be added to template, 
-	it goes here and gets set to the (var) template() 
-	from above. Run the function with the data as 
+	/* When info needs to be added to template,
+	it goes here and gets set to the (var) template()
+	from above. Run the function with the data as
 	the argument (data must be in object form) */
 	var obOb = testOb;
 	console.log(obOb);
@@ -74,40 +69,3 @@ function renderTest(){
 	var insultHTML = insultTemplate(obOb);
 	$("#insult-placeholder").append(insultHTML);
 };
-
-///////////////////////////////////////////////////////
-
-
-/*
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
- // notes 
-
- Search button is clicked. 
-
-Form gets sent to app.js and all values get set to variables
-
-Vars are run through of statement to determine value
-
-Api get request to database
-
-If looking for user run dd.findone with the search input as the parameter. 
-
-If looking for story genre then find all stories in db that have that genre selected. 
-
-Reroute where needed.
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-*/
-
-
-
-
-
-
-
-
-
-

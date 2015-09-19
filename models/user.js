@@ -10,8 +10,8 @@ var Submission = new Schema({
       genre: String,
       content: String,
       timestamp: {type: Date, default: Date.now()},
-      //suggestedEdits: [Edits]
-      });               // ^ reference
+      suggestedEdits: [String]
+      });               
 
 // User Schema
 var UserSchema = new Schema({
@@ -19,7 +19,7 @@ var UserSchema = new Schema({
               firstName: String,
               lastName: String,
               email: String,
-              passwordDigest: String, 
+              passwordDigest: String,
               dateCreated: {type: Date, default: Date.now()},
               submissions: [Submission]
               });           // ^ Embedded
@@ -83,11 +83,3 @@ var User = mongoose.model("User", UserSchema);
 // export model
 // module.exports = Submission;
 module.exports = User;
-
-
-
-
-
-
-
-

@@ -43,7 +43,7 @@ app.use(
 );
 
 
-// extend req abilities 
+// extend req abilities
 app.use(function (req, res, next){
 	// for login
 	req.login = function (user){
@@ -80,10 +80,10 @@ app.get("/", function (req, res){	// <-- needs to have a find all db function th
 			console.log(err);
 		};
 		var writing = {stories: []};
-		console.log(users);
+		//console.log(users);
 		users.forEach(function (user){
 			user.submissions.forEach(function (submission){
-				writing.stories.push(submission);	
+				writing.stories.push(submission);
 			});
 		});
 		res.render("index.ejs", {storyInfo: writing});
@@ -127,8 +127,18 @@ app.get("/user-profile", function (req, res){
 });
 
 
-app.get("/editor", function (req, res){
-	res.render("editor");
+app.post("/editor", function (req, res){
+	var submissionID = req.body.id;
+	console.log(submissionID);
+	db.Submission.findOne({_id: submissionID}, function (err, submission){
+		if (err){
+			console.log(err);
+			res.redirect("/not-found"); // <-- will have page.
+		};
+		console.log("Submission: " , submission);
+		res.send(submission);
+		//res.render("user-profile.ejs", {userInfo: user});
+	});
 });
 
 
@@ -143,21 +153,21 @@ app.get("/just...why", function (req, res){
 //////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////
 
-app.get("/fileTest", function (req, res){
-	res.sendFile(path.join(views + "fileTest.html"));
-});
-
-app.post(["/fileTest", "/api/files"], function (req, res){
-	//code
-	console.log("req = " + req);
-	console.log("req.body = " + req.body);
-	console.log("req[0] = " + req[0]);
-	//console.log("req.body.submission.text = " + req.body.submission.text)
-	console.log("Test file submitted as: " + req.body.submission);
-	var testOb = req.body;
-	console.log(testOb)
-	res.send(req);
-});
+// app.get("/fileTest", function (req, res){
+// 	res.sendFile(path.join(views + "fileTest.html"));
+// });
+//
+// app.post(["/fileTest", "/api/files"], function (req, res){
+// 	//code
+// 	console.log("req = " + req);
+// 	console.log("req.body = " + req.body);
+// 	console.log("req[0] = " + req[0]);
+// 	//console.log("req.body.submission.text = " + req.body.submission.text)
+// 	console.log("Test file submitted as: " + req.body.submission);
+// 	var testOb = req.body;
+// 	console.log(testOb)
+// 	res.send(req);
+// });
 
 app.get("/users", function (req, res){
     db.User.find({}, function (err, users) {
@@ -193,7 +203,7 @@ app.post(["/login", "/api/session"], function (req, res){
   		} else {
   			req.login(user);
   			res.cookie("guid", user._id);
-  			res.redirect("/profile"); 
+  			res.redirect("/profile");
   			/*res.send(email + " is logged in\n");*/
   		};
   	});
@@ -221,28 +231,29 @@ app.post(["/signup", "/api/users"], function signup(req, res) {
 		req.login(user);
 		res.cookie("guid", user._id);
 		console.log("logged In")
-		res.redirect("/profile"); 
-	});	
+		res.redirect("/profile");
+	});
 });
 
-
+/* New Story submission is aces ! */
 app.post(["/submissions", "/api/submissions"], function (req, res) {
-	console.log(req.body);
 	newSubmission = req.body;
+	console.log("Received Submission: " , newSubmission);
 
 	db.User.findOne({ _id: req.session.userId}, function (err, user){
 		if (err){
 			return console.log("findOne ERR = " + err);
 		};
+		console.log("Entering story model for " + user.firstName);
 		user.submissions.push(newSubmission);
 
 		user.save(function (err, success) {
 			if (err){
-				return console.log("During Save ERR = " + err);
+				return console.log("db save ERR = " + err);
 			};
-			console.log("It worked?");
+			console.log("Successfully saved " + success.title);
 		});
-		res.redirect("/profile"); 
+		res.redirect("/profile");
 	});
 });
 
@@ -254,30 +265,44 @@ app.delete(["/logout", "api/session"], function (req, res) {
 	res.redirect("/");
 })
 
-app.delete("/story", function (req, res) {
-	console.log(req.body); //<-- equals right stuff
-	var ids = req.body;
 
-	db.User.findOne({_id: ids.data[0]}, function (err, user) { 
-        if (err) {
-            return console.log(err);
-        };
-        for (var i = 0; i < user.submissions.length; i++) {
-        	if (user.submissions[i]._id.toString() === ids[1]) {
-            	user.submissions[i].remove();    
-           		break; 
-           	};
-	    };
-	});
-    user.save(function(err, success) {
-        if (err) {
-        	return console.log(err);
-        };
-        res.send(success);
-    });
+app.post("/deleteStory", function (req, res) {
+	//console.log(req.body); //<-- equals right stuff
+	//var deleteId = req.session.id;
+	var deleteID  = req.body.id.split(' ');
+	var storyID = deleteID[0];
+	var userID = deleteID[1];
+
+	db.User.findOne({_id: userID}, function (err, user) {
+	  if (err) { return console.log(err); res.sendStatus(400)};
+
+		console.log("Accessing User " + user.firstName);
+
+		index = 0;
+		count =0;
+		user.submissions.forEach( function(submission) {
+			(storyID.toString() ===  submission._id.toString())?
+				index = count: count += 1;
+			
+		});
+		var deadTitle = user.submissions[index].title;
+		console.log('Removing the title "'
+			+ deadTitle + '" from ')
+			+ (user.firstName+'\'s story db');
+
+		user.submissions[index].remove();
+		user.save(function(err, success) {
+		    if (err) {
+		    	return console.log(err);
+		    };
+		    res.send("Successfully Deleted " + deadTitle);
+		});
 });
 
-// * SERVER * // 
+		//res.send("Deleted " + deleteID[0]);
+});
+
+// * SERVER * //
 app.listen(process.env.PORT || 3000, function(){
 	console.log("We're running wild!")
 });
