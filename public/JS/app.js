@@ -2,7 +2,8 @@ $(document).ready(function(){
 	$("#testTest").on("click", function(e){
 		renderTest();
 	});
-
+	/* TODO: need to store userID & submissionID in one space separated string as data in html */
+	/* See delete html as example */
 	$(".btn-edit").on("click", function(e){
 		var toBeEdited = {}
 		toBeEdited.id = $(this).context.attributes[2].textContent;

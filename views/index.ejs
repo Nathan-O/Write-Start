@@ -113,11 +113,26 @@
 						<!-- USE TABLE FOR STORIES LIST -->
 							<ul class="list-unstyled">
 								<!-- EDIT BUTTON -->
+								<!-- TODO: pull the same templating from your Delete templating so we can access
+							 			both user.id and submission.id
+
+										When this html page loads, you'll have to automatically call an ajax function
+										to return a list of 20 most recent users AND their most recent submission
+										freshUsers.forEach(
+
+											// newest submission
+											console.log(user.submission[0])
+
+										)
+
+										http://stackoverflow.com/questions/4421207/mongodb-how-to-get-the-last-n-records
+
+									-->
 								<% storyInfo.stories.forEach( function (submission){ %>
 										<div class="row">
 											<div class="col-md-7 story-line">
 													<button class="btn btn-xs btn-edit" id="edit"
-														data="<%= submission._id %>">
+														data="<%= user._id> <%= submission._id %>">
 														Edit
 													</button>
 												<h4><%= submission.title %></h4>

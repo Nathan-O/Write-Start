@@ -47,31 +47,4 @@ $(document).on("ready", function(){
 				console.log("Delete Aborted.")
 			}
 	});
-
-
 });
-
-function deleteStory(context) {
-	var storyId = context.id;
-	console.log(context)
-	console.log(context.id);
-
-	var ids = storyId.split("=");
-	console.log(ids)
-	//console.log(context.data.id)
-	console.log("storyId")
-	console.log(storyId);
-
-	var idObject = {data: ids};
-
-    $.ajax({
-        url: '/story',
-        type: 'DELETE',
-        data: idObject,
-
-        success: function(res){
-            console.log("deletion successful");
-            location.reload();
-        }
-    });
-};

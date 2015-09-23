@@ -1,20 +1,20 @@
 var db = require('./models');
 
-// db.User.find({}, function(err, users) {
-//   if(err){return console.log(err);}
-//   users.forEach(function(user) {
-//     console.log(user._id);
-//     //console.log(user.submissions);
-//   });
-// });
-
-db.Submission.find({}, function(err, submissions) {
+db.User.find({}, function(err, users) {
   if(err){return console.log(err);}
-  // console.log(submissions)
-  submissions.forEach(function(submission) {
-    console.log(submission._id);
+  users.forEach(function(user) {
+    console.log(user.firstName);
+    console.log(user.submissions);
   });
 });
+
+// db.Submission.find({}, function(err, submissions) {
+//   if(err){return console.log(err);}
+//   // console.log(submissions)
+//   submissions.forEach(function(submission) {
+//     console.log(submission._id);
+//   });
+// });
 
 // seedUser = {
 //   username: "pxlperfection",

@@ -129,15 +129,17 @@ app.get("/user-profile", function (req, res){
 
 app.post("/editor", function (req, res){
 	var submissionID = req.body.id;
+	/* Only receiving submissionID from ajax request located in app.js */
+	
 	console.log(submissionID);
-	db.Submission.findOne({_id: submissionID}, function (err, submission){
+	db.User.findOne({_id: submissionID}, function (err, submission){
 		if (err){
 			console.log(err);
 			res.redirect("/not-found"); // <-- will have page.
 		};
 		console.log("Submission: " , submission);
-		res.send(submission);
-		//res.render("user-profile.ejs", {userInfo: user});
+		/* We're hitting user-profile.ejs */
+		// res.render("editor.ejs");
 	});
 });
 
@@ -251,7 +253,7 @@ app.post(["/submissions", "/api/submissions"], function (req, res) {
 			if (err){
 				return console.log("db save ERR = " + err);
 			};
-			console.log("Successfully saved " + success.title);
+			console.log("Successfully saved " + newSubmission.title);
 		});
 		res.redirect("/profile");
 	});
@@ -283,7 +285,6 @@ app.post("/deleteStory", function (req, res) {
 		user.submissions.forEach( function(submission) {
 			(storyID.toString() ===  submission._id.toString())?
 				index = count: count += 1;
-			
 		});
 		var deadTitle = user.submissions[index].title;
 		console.log('Removing the title "'
