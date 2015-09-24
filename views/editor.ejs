@@ -2,22 +2,19 @@
 <html>
 
 	<head>
-		<title><%= title %> | Editor</title>
 
 		<script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
 		<script>tinymce.init({selector:'textarea'});</script>
 
-		<% include partials/head %>
 
 	</head>
 
 	<body>
-		<% include partials/headerBar %>
 
 		<div class="container" id="page-wrapper">
 			<header>
 				<div class="jumbotron">
-					<h1> Editor <small>Hack & Slash</small></h1>
+					<h1> Editor <small>Hack &amp; Slash</small></h1>
 					<h3>Wordsmiths can use hammers too.</h3>
 				</div>
 			</header>
@@ -32,11 +29,10 @@
 				<div id="editor-wrapper">
 					<div class="panel panel-danger">
 						<div class="panel-heading">
-							<h1> <%= title %>  <small>Editor</small></h1>
 						</div>
 						<div class="panel-body">
 							<div id="form-container">
-								<form method="POST" action="/users"> 
+								<form method="POST" action="/users">
 									<div class="form-group" role="group">
 										<textarea class="form-control">Please edit responsibly.</textarea>
 									</div>
@@ -50,6 +46,3 @@
 		</div>
 	</body>
 </html>
-
-
-
